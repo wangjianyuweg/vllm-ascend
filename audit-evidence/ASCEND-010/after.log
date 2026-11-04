@@ -1,0 +1,11 @@
+Base: 0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3 + audit/patches/ASCEND-010.patch
+Worktree: /tmp/vllm-ascend-pr-010
+Command: python3 tests/ut/attention/test_projection_pool_lifetime_cpu.py -v
+Exit code: 0
+
+test_buffers_share_while_live_and_release_after_both_owners_are_gone (__main__.TestProjectionPoolLifetime.test_buffers_share_while_live_and_release_after_both_owners_are_gone) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.035s
+
+OK

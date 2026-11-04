@@ -1,0 +1,51 @@
+test_automatic_capacity_uses_all_rank_minimum (__main__.SimpleOffloadSizingTest.test_automatic_capacity_uses_all_rank_minimum) ... FAIL
+test_connector_forwards_parsed_block_count_to_replacement (__main__.SimpleOffloadSizingTest.test_connector_forwards_parsed_block_count_to_replacement) ... FAIL
+test_explicit_block_count_is_preserved_at_registration (__main__.SimpleOffloadSizingTest.test_explicit_block_count_is_preserved_at_registration) ... FAIL
+test_explicit_capacity_cannot_exceed_byte_budget (__main__.SimpleOffloadSizingTest.test_explicit_capacity_cannot_exceed_byte_budget) ... FAIL
+test_release_connector_accepts_handler_without_override (__main__.SimpleOffloadSizingTest.test_release_connector_accepts_handler_without_override) ... ok
+test_release_constructor_keeps_legacy_signature (__main__.SimpleOffloadSizingTest.test_release_constructor_keeps_legacy_signature) ... ok
+test_release_registration_keeps_legacy_local_capacity (__main__.SimpleOffloadSizingTest.test_release_registration_keeps_legacy_local_capacity) ... ok
+
+======================================================================
+FAIL: test_automatic_capacity_uses_all_rank_minimum (__main__.SimpleOffloadSizingTest.test_automatic_capacity_uses_all_rank_minimum)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-021/tests/ut/simple_kv_offload/test_capacity_contract_cpu.py", line 208, in test_automatic_capacity_uses_all_rank_minimum
+    self.assertEqual(self.register(None).num_cpu_blocks, 3)
+AssertionError: 16 != 3
+
+======================================================================
+FAIL: test_connector_forwards_parsed_block_count_to_replacement (__main__.SimpleOffloadSizingTest.test_connector_forwards_parsed_block_count_to_replacement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-021/tests/ut/simple_kv_offload/test_capacity_contract_cpu.py", line 237, in test_connector_forwards_parsed_block_count_to_replacement
+    make_worker.assert_called_once_with(config, cache, 96, num_cpu_blocks=2)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 951, in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 939, in assert_called_with
+    raise AssertionError(_error_message()) from cause
+AssertionError: expected call not found.
+Expected: mock(<object object at 0x108ff4a50>, <object object at 0x108ff4c70>, 96, num_cpu_blocks=2)
+  Actual: mock(<object object at 0x108ff4a50>, <object object at 0x108ff4c70>, 96)
+
+======================================================================
+FAIL: test_explicit_block_count_is_preserved_at_registration (__main__.SimpleOffloadSizingTest.test_explicit_block_count_is_preserved_at_registration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-021/tests/ut/simple_kv_offload/test_capacity_contract_cpu.py", line 204, in test_explicit_block_count_is_preserved_at_registration
+    self.assertEqual(self.register(2).num_cpu_blocks, 2)
+AssertionError: 16 != 2
+
+======================================================================
+FAIL: test_explicit_capacity_cannot_exceed_byte_budget (__main__.SimpleOffloadSizingTest.test_explicit_capacity_cannot_exceed_byte_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-021/tests/ut/simple_kv_offload/test_capacity_contract_cpu.py", line 212, in test_explicit_capacity_cannot_exceed_byte_budget
+    with self.assertRaisesRegex(ValueError, "local offload capacity"):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.281s
+
+FAILED (failures=4)

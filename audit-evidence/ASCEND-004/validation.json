@@ -1,0 +1,79 @@
+{
+  "id": "ASCEND-004",
+  "base_commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+  "upstream_vllm_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+  "worktree": "/tmp/vllm-ascend-pr-004",
+  "test": "tests/ut/worker/test_worker_uninstall_lock.py",
+  "command": [
+    "/tmp/vllm-ascend-audit-venv/bin/python",
+    "tests/ut/worker/test_worker_uninstall_lock.py",
+    "-v"
+  ],
+  "python": "Python 3.11.9",
+  "platform": "Darwin-25.6.0-x86_64-i386-64bit",
+  "before": {
+    "exit_code": 1,
+    "tests_run": 5,
+    "log": "before.log",
+    "failures": 3
+  },
+  "after": {
+    "exit_code": 0,
+    "tests_run": 5,
+    "log": "after.log",
+    "failures": 0
+  },
+  "checks": [
+    {
+      "command": [
+        "/tmp/vllm-ascend-audit-venv/bin/ruff",
+        "check",
+        "vllm_ascend/worker/worker.py",
+        "tests/ut/worker/test_worker_uninstall_lock.py"
+      ],
+      "exit_code": 0,
+      "output": "All checks passed!\n"
+    },
+    {
+      "command": [
+        "/tmp/vllm-ascend-audit-venv/bin/ruff",
+        "format",
+        "--check",
+        "vllm_ascend/worker/worker.py",
+        "tests/ut/worker/test_worker_uninstall_lock.py"
+      ],
+      "exit_code": 0,
+      "output": "2 files already formatted\n"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "bash",
+        "format.sh",
+        "ci"
+      ],
+      "exit_code": 0,
+      "log": "format.log",
+      "details": "format-validation.json"
+    }
+  ],
+  "not_run": [
+    "Full repository pytest suite and project conftest environment",
+    "NPU hardware tests",
+    "Model-serving/end-to-end tests"
+  ],
+  "scope": "CPU/POSIX unittest of the actual checked-out method: os.dup/flock plus one real bash child executing a temporary harmless marker-wait script. No CANN uninstall script or NPU runtime is executed.",
+  "full_format_sh_ci": "passed",
+  "full_format_sh_ci_exit_code": 0,
+  "full_format_sh_ci_log": "format.log",
+  "full_format_sh_ci_details": "format-validation.json",
+  "full_pytest_validation": "not_run"
+}

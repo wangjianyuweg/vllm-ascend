@@ -1,0 +1,26 @@
+{
+  "scope": "Strict public-duplication review before publication; does not establish absolute novelty",
+  "base_commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+  "eligible": ["ASCEND-004", "ASCEND-006", "ASCEND-008", "ASCEND-009", "ASCEND-010", "ASCEND-012", "ASCEND-014", "ASCEND-017", "ASCEND-020", "ASCEND-021"],
+  "existing_or_substantially_overlapping": ["ASCEND-001", "ASCEND-002", "ASCEND-003", "ASCEND-005", "ASCEND-007", "ASCEND-011", "ASCEND-013", "ASCEND-018", "ASCEND-019", "ASCEND-022"],
+  "deferred_for_contract_evidence": ["ASCEND-015", "ASCEND-016"],
+  "overrides": {
+    "ASCEND-022": {
+      "decision": "Do not open a new issue or PR in the unique-discovery batch",
+      "reference": "https://github.com/vllm-project/vllm-ascend/pull/13823",
+      "reason": "The closed unmerged PR publicly acknowledges that disk kwargs are only forwarded for interface alignment and that the NPU register_kv_caches override does not implement the disk backend. It does not implement the proposed fail-fast guard or report every connector-level detail, but the user-visible unsupported-disk gap substantially overlaps. A different repair strategy alone does not establish uniqueness. This is not a claim that the bug is fixed."
+    },
+    "ASCEND-021": {
+      "decision": "Retain the current-main defect, strengthen the patch for supported vLLM v0.32.0",
+      "reason": "Independent review found that v0.32.0 lacks the new constructor keyword and capacity resolver. The main-only patch would introduce a release regression. Publication requires capability-compatible forwarding and an additional frozen-release positive control."
+    },
+    "ASCEND-015": {
+      "decision": "Defer",
+      "reason": "A barrier-based race can be constructed, but a supported concurrent or reentrant layer-construction entry point has not been established."
+    },
+    "ASCEND-016": {
+      "decision": "Defer",
+      "reason": "The helper loops for integers congruent to 2 mod 4, but those dimensions have not been established as valid supported FlatQuant checkpoint inputs. The appropriate contract could be rejection rather than factor-search support."
+    }
+  }
+}

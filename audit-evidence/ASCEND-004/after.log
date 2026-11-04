@@ -1,0 +1,10 @@
+test_background_child_keeps_lock_until_exit (__main__.WorkerUninstallLockTest.test_background_child_keeps_lock_until_exit) ... ok
+test_failed_contender_cannot_unlink_active_lock (__main__.WorkerUninstallLockTest.test_failed_contender_cannot_unlink_active_lock) ... ok
+test_failed_spawn_releases_the_acquired_lock (__main__.WorkerUninstallLockTest.test_failed_spawn_releases_the_acquired_lock) ... ok
+test_missing_script_does_not_create_a_lock_or_spawn (__main__.WorkerUninstallLockTest.test_missing_script_does_not_create_a_lock_or_spawn) ... ok
+test_real_child_holds_lock_until_harmless_script_exits (__main__.WorkerUninstallLockTest.test_real_child_holds_lock_until_harmless_script_exits) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.123s
+
+OK

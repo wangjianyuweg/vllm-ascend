@@ -1,0 +1,50 @@
+test_cleanup_precedes_missing_auxiliary_state_error (__main__.TestCancelledDSparkPrefillCleanup.test_cleanup_precedes_missing_auxiliary_state_error) ... FAIL
+test_cleanup_preserves_sending_for_other_active_requests (__main__.TestCancelledDSparkPrefillCleanup.test_cleanup_preserves_sending_for_other_active_requests) ... FAIL
+test_empty_or_unknown_finished_ids_preserve_live_progress (__main__.TestCancelledDSparkPrefillCleanup.test_empty_or_unknown_finished_ids_preserve_live_progress) ... ok
+test_finished_partial_prefill_is_removed_without_active_dspark_metadata (__main__.TestCancelledDSparkPrefillCleanup.test_finished_partial_prefill_is_removed_without_active_dspark_metadata) ... FAIL
+test_finished_partial_prefill_is_removed_without_execution_state (__main__.TestCancelledDSparkPrefillCleanup.test_finished_partial_prefill_is_removed_without_execution_state) ... FAIL
+
+======================================================================
+FAIL: test_cleanup_precedes_missing_auxiliary_state_error (__main__.TestCancelledDSparkPrefillCleanup.test_cleanup_precedes_missing_auxiliary_state_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-006/tests/ut/worker/test_dspark_prefill_cleanup.py", line 76, in test_cleanup_precedes_missing_auxiliary_state_error
+    self.assert_cancelled_removed()
+  File "/private/tmp/vllm-ascend-pr-006/tests/ut/worker/test_dspark_prefill_cleanup.py", line 57, in assert_cancelled_removed
+    self.assertNotIn("cancelled", self.runner._dspark_prefill_progress)
+AssertionError: 'cancelled' unexpectedly found in {'cancelled': ('generation-a', 16), 'still-live': ('generation-b', 16)}
+
+======================================================================
+FAIL: test_cleanup_preserves_sending_for_other_active_requests (__main__.TestCancelledDSparkPrefillCleanup.test_cleanup_preserves_sending_for_other_active_requests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-006/tests/ut/worker/test_dspark_prefill_cleanup.py", line 93, in test_cleanup_preserves_sending_for_other_active_requests
+    self.assert_cancelled_removed()
+  File "/private/tmp/vllm-ascend-pr-006/tests/ut/worker/test_dspark_prefill_cleanup.py", line 57, in assert_cancelled_removed
+    self.assertNotIn("cancelled", self.runner._dspark_prefill_progress)
+AssertionError: 'cancelled' unexpectedly found in {'cancelled': ('generation-a', 16), 'still-live': ('generation-b', 16)}
+
+======================================================================
+FAIL: test_finished_partial_prefill_is_removed_without_active_dspark_metadata (__main__.TestCancelledDSparkPrefillCleanup.test_finished_partial_prefill_is_removed_without_active_dspark_metadata)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-006/tests/ut/worker/test_dspark_prefill_cleanup.py", line 62, in test_finished_partial_prefill_is_removed_without_active_dspark_metadata
+    self.assert_cancelled_removed()
+  File "/private/tmp/vllm-ascend-pr-006/tests/ut/worker/test_dspark_prefill_cleanup.py", line 57, in assert_cancelled_removed
+    self.assertNotIn("cancelled", self.runner._dspark_prefill_progress)
+AssertionError: 'cancelled' unexpectedly found in {'cancelled': ('generation-a', 16), 'still-live': ('generation-b', 16)}
+
+======================================================================
+FAIL: test_finished_partial_prefill_is_removed_without_execution_state (__main__.TestCancelledDSparkPrefillCleanup.test_finished_partial_prefill_is_removed_without_execution_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-006/tests/ut/worker/test_dspark_prefill_cleanup.py", line 68, in test_finished_partial_prefill_is_removed_without_execution_state
+    self.assert_cancelled_removed()
+  File "/private/tmp/vllm-ascend-pr-006/tests/ut/worker/test_dspark_prefill_cleanup.py", line 57, in assert_cancelled_removed
+    self.assertNotIn("cancelled", self.runner._dspark_prefill_progress)
+AssertionError: 'cancelled' unexpectedly found in {'cancelled': ('generation-a', 16), 'still-live': ('generation-b', 16)}
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.080s
+
+FAILED (failures=4)

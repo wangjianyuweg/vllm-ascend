@@ -1,0 +1,10 @@
+test_cleanup_precedes_missing_auxiliary_state_error (__main__.TestCancelledDSparkPrefillCleanup.test_cleanup_precedes_missing_auxiliary_state_error) ... ok
+test_cleanup_preserves_sending_for_other_active_requests (__main__.TestCancelledDSparkPrefillCleanup.test_cleanup_preserves_sending_for_other_active_requests) ... ok
+test_empty_or_unknown_finished_ids_preserve_live_progress (__main__.TestCancelledDSparkPrefillCleanup.test_empty_or_unknown_finished_ids_preserve_live_progress) ... ok
+test_finished_partial_prefill_is_removed_without_active_dspark_metadata (__main__.TestCancelledDSparkPrefillCleanup.test_finished_partial_prefill_is_removed_without_active_dspark_metadata) ... ok
+test_finished_partial_prefill_is_removed_without_execution_state (__main__.TestCancelledDSparkPrefillCleanup.test_finished_partial_prefill_is_removed_without_execution_state) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.075s
+
+OK

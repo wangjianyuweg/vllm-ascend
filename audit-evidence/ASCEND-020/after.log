@@ -1,0 +1,8 @@
+test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) ... ok
+test_failed_start_signals_readiness_and_records_error (__main__.TransferThreadStartupTest.test_failed_start_signals_readiness_and_records_error) ... ok
+test_successful_start_keeps_normal_handshake (__main__.TransferThreadStartupTest.test_successful_start_keeps_normal_handshake) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.157s
+
+OK

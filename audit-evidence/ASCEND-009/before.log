@@ -1,0 +1,24 @@
+Base: 0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3
+Worktree: /tmp/vllm-ascend-pr-009
+Command: python3 tests/ut/test_platform_empty_metadata_cpu.py -v
+Exit code: 1
+
+test_empty_metadata_without_token_count (__main__.PlatformEmptyMetadataTest.test_empty_metadata_without_token_count) ... ERROR
+test_nonempty_metadata_infers_token_count (__main__.PlatformEmptyMetadataTest.test_nonempty_metadata_infers_token_count) ... ok
+
+======================================================================
+ERROR: test_empty_metadata_without_token_count (__main__.PlatformEmptyMetadataTest.test_empty_metadata_without_token_count)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-009/tests/ut/test_platform_empty_metadata_cpu.py", line 79, in test_empty_metadata_without_token_count
+    result = self.platform.set_additional_forward_context(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/vllm-ascend-pr-009/vllm_ascend/platform.py", line 736, in set_additional_forward_context
+    num_tokens = list(attn_metadata.values())[0].num_actual_tokens
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.036s
+
+FAILED (errors=1)

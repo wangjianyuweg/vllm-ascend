@@ -1,0 +1,30 @@
+{
+  "worktree": "/tmp/vllm-ascend-pr-014",
+  "command": [
+    "bash",
+    "format.sh",
+    "ci"
+  ],
+  "included_files": [
+    "tests/ut/quantization/configs/test_w4a16_group_size_cpu.py",
+    "vllm_ascend/quantization/configs/compressed_tensors_config.py",
+    "vllm_ascend/quantization/methods/wna16/w4a16.py"
+  ],
+  "temporary_index": "/tmp/vllm-audit-tools/format-index-014",
+  "process_env_overrides": [
+    "PATH",
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "PIP_CERT=/etc/ssl/cert.pem",
+    "SSL_CERT_FILE=/etc/ssl/cert.pem",
+    "PIP_DEFAULT_TIMEOUT=60",
+    "PIP_FIND_LINKS=/tmp/vllm-audit-tools/downloads",
+    "PRE_COMMIT_NO_CONCURRENCY=1",
+    "RAYON_NUM_THREADS=2",
+    "GIT_INDEX_FILE"
+  ],
+  "status_before": " M vllm_ascend/quantization/configs/compressed_tensors_config.py\n M vllm_ascend/quantization/methods/wna16/w4a16.py\n?? tests/ut/quantization/configs/test_w4a16_group_size_cpu.py\n",
+  "exit_code": 0,
+  "status_after": " M vllm_ascend/quantization/configs/compressed_tensors_config.py\n M vllm_ascend/quantization/methods/wna16/w4a16.py\n?? tests/ut/quantization/configs/test_w4a16_group_size_cpu.py\n",
+  "unexpected_modified_files": []
+}

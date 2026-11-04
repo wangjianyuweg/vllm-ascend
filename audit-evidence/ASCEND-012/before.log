@@ -1,0 +1,44 @@
+Base: 0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3
+Worktree: /tmp/vllm-ascend-pr-012
+Command: python3 tests/ut/device_allocator/test_camem_copy_failures_cpu.py -v
+Exit code: 1
+
+test_sleep_copy_error_keeps_device_data_live (__main__.AllocatorMemcpyTest.test_sleep_copy_error_keeps_device_data_live) ... FAIL
+test_successful_roundtrip_uses_destination_capacity_in_bytes (__main__.AllocatorMemcpyTest.test_successful_roundtrip_uses_destination_capacity_in_bytes) ... FAIL
+test_wakeup_copy_error_preserves_backup_and_can_retry (__main__.AllocatorMemcpyTest.test_wakeup_copy_error_preserves_backup_and_can_retry) ... FAIL
+
+======================================================================
+FAIL: test_sleep_copy_error_keeps_device_data_live (__main__.AllocatorMemcpyTest.test_sleep_copy_error_keeps_device_data_live)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-012/tests/ut/device_allocator/test_camem_copy_failures_cpu.py", line 56, in test_sleep_copy_error_keeps_device_data_live
+    with self.assertRaisesRegex(RuntimeError, "507000"):
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_successful_roundtrip_uses_destination_capacity_in_bytes (__main__.AllocatorMemcpyTest.test_successful_roundtrip_uses_destination_capacity_in_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-012/tests/ut/device_allocator/test_camem_copy_failures_cpu.py", line 79, in test_successful_roundtrip_uses_destination_capacity_in_bytes
+    self.memcpy.assert_called_once_with(0x2000, 64, 0x1000, 64, 2)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 951, in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 939, in assert_called_with
+    raise AssertionError(_error_message()) from cause
+AssertionError: expected call not found.
+Expected: mock(8192, 64, 4096, 64, 2)
+  Actual: mock(8192, 8320, 4096, 64, 2)
+
+======================================================================
+FAIL: test_wakeup_copy_error_preserves_backup_and_can_retry (__main__.AllocatorMemcpyTest.test_wakeup_copy_error_preserves_backup_and_can_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-012/tests/ut/device_allocator/test_camem_copy_failures_cpu.py", line 66, in test_wakeup_copy_error_preserves_backup_and_can_retry
+    with self.assertRaisesRegex(RuntimeError, "507000"):
+AssertionError: RuntimeError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.022s
+
+FAILED (failures=3)

@@ -1,0 +1,581 @@
+[
+  {
+    "id": "ASCEND-008",
+    "queries": [
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"num_compute_units\""
+      },
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"num_compute_units\" \"TypeError\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"num_compute_units\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"compute\" \"classmethod\""
+      },
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"compute\" \"cls\""
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/issues/16309",
+        "title": "[Bug]: Inconsistent device ID namespaces across Ascend platform interfaces and CPU binding",
+        "state": "closed",
+        "relation": "related_not_duplicate",
+        "evidence": "正文审查的是逻辑/可见/物理 NPU ID 的命名空间。num_compute_units 被列为向 torch_npu 转发运行时 ordinal 的消费者，并明确没有在此建立新缺陷；没有讨论类调用缺少 cls 或位置参数错绑。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/13847",
+        "title": "[MRV2][Feature][Bugfix] Support and fix Top-K/Top-P Triton kernel on Ascend",
+        "state": "merged",
+        "relation": "related_not_fix",
+        "evidence": "已读 diff：从上游导入 num_compute_units 工具并用它计算 Top-K/Top-P grid，没有给 NPUPlatform.num_compute_units 补 classmethod。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/10690",
+        "title": "[BugFix] Drop Ascend total memory override",
+        "state": "closed_unmerged",
+        "relation": "related_not_fix",
+        "evidence": "该未合并草案讨论删除 total-memory override；其包含的分支堆栈 diff 反而删除 num_compute_units 前的 @classmethod，未提出或实施恢复类方法绑定。关闭说明称改用 fork 的最小 PR。"
+      }
+    ],
+    "dedupe_verdict": "no_duplicate_found",
+    "confidence": "high_for_current_defect; medium_high_for_deduplication",
+    "caveats": [
+      "检索覆盖开放与已关闭的 issue，以及开放、已关闭未合并和已合并 PR；结论是已执行查询中未找到重复，不保证未索引、未公开或不同措辞的讨论不存在。全部本地验证仅为 CPU/mock/Python 引用及控制流验证，无 NPU 执行证据。",
+      "限定为上游允许的类调用 API 回归；通过 current_platform 实例调用正常，不声称常规推理启动一定失败。"
+    ],
+    "proposal": "可发布聚焦 classmethod 契约的 issue/PR。保留无参、keyword device_id、位置参数及实例控制用例；不要把设备 ID 命名空间问题 #16309 作为本缺陷的已验证症状。",
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still_present",
+      "baseline_evidence": "audit/publication/research/phase2-current-main-tests.json",
+      "original_patch_applies_cleanly": true,
+      "patched_test_passes": true,
+      "patched_evidence": "audit/publication/research/phase2-current-main-patched-tests.json",
+      "hardware_used": false
+    },
+    "checked_at": "2026-11-04"
+  },
+  {
+    "id": "ASCEND-009",
+    "queries": [
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"set_additional_forward_context\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"set_additional_forward_context\" empty"
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"set_additional_forward_context\" \"None\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"attn_metadata\" \"empty\""
+      },
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"forward_context\" \"IndexError\""
+      },
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"attn_metadata\" \"values\""
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/5720",
+        "title": "[Feature] implenment set_additional_forward_context for model runner v2",
+        "state": "merged",
+        "relation": "related_origin_not_fix",
+        "evidence": "已合并的 MRv2 hook 实现 PR 定义 optional num_tokens 和 set_additional_forward_context；读取其实现 diff，未发现空 mapping+缺省 token 数的专门修复。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/7922",
+        "title": "[MRv2][Feature] Add initial MoE models support for MRv2",
+        "state": "merged",
+        "relation": "related_not_fix",
+        "evidence": "MRv2 MoE 支持 PR 的 hook 测试使用 attn_metadata=None 且显式 num_tokens=4/5，不覆盖 {} 且 num_tokens=None 的边界。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/20777",
+        "title": "[BugFix] Align ACL graph calls without forward context",
+        "state": "merged",
+        "relation": "related_not_fix",
+        "evidence": "当前 main 新合入的改动修复 ACLGraphWrapper 没有 ForwardContext 时的回退，并删除 DFlash score context override；不是 platform hook 读取空字典首元素的问题。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/issues/13474",
+        "title": "[Bug][P/D]: AscendStore+MooncakeLayerwise MultiConnector: double-write and Prefill IndexError when AscendStore is selected to load  ",
+        "state": "closed",
+        "relation": "different_defect",
+        "evidence": "该已关闭 issue 的 IndexError 在 Mooncake get_transfer_mappings，源自 AscendStore full-hit 与 P2P 的 72/73 block 数不一致；不是 platform.py 的空 attention metadata。"
+      }
+    ],
+    "dedupe_verdict": "no_duplicate_found",
+    "confidence": "high_for_current_defect; medium_high_for_deduplication",
+    "caveats": [
+      "检索覆盖开放与已关闭的 issue，以及开放、已关闭未合并和已合并 PR；结论是已执行查询中未找到重复，不保证未索引、未公开或不同措辞的讨论不存在。全部本地验证仅为 CPU/mock/Python 引用及控制流验证，无 NPU 执行证据。",
+      "仅 API 合法边界：dense MRv2、TP=DP=1、attn_metadata={}、num_tokens=None。已检查本地生产调用普遍显式传 token 数，不能表述为普通调度空 batch 必然崩溃。",
+      "宽泛 attn_metadata/empty 查询达到 40 条截断；后续用具体 hook、None 和 IndexError 收窄，并阅读最相关 diff。"
+    ],
+    "proposal": "可发布最小空 mapping 守卫及控制用例，明确是允许的 hook 输入边界。可与 ASCEND-008 合成同一 platform 契约 PR，但保持两个独立回归测试和影响说明。",
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still_present",
+      "baseline_evidence": "audit/publication/research/phase2-current-main-tests.json",
+      "original_patch_applies_cleanly": true,
+      "patched_test_passes": true,
+      "patched_evidence": "audit/publication/research/phase2-current-main-patched-tests.json",
+      "hardware_used": false
+    },
+    "checked_at": "2026-11-04"
+  },
+  {
+    "id": "ASCEND-010",
+    "queries": [
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"o_proj_full_pools\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"o_proj_full_pools\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"o_proj_full_pools\" \"weak\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"WeakValueDictionary\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"projection\" \"pool\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"projection\" \"leak\""
+      },
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"o_proj\" \"memory\""
+      },
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"projection\" \"garbage\""
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/18265",
+        "title": "[BugFix][SFA] Preserve PCP decode ownership and KV-copy kernel reuse",
+        "state": "merged",
+        "relation": "related_origin_not_fix",
+        "evidence": "已合并 diff 在 o_proj_full_pools 中复用四个 graph-stable activation buffers，并以实例属性持有它们；新增 shape/device/dtype/sharing 测试，但没有弱引用或 teardown 清理。当前 main 的强引用类字典仍在。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/issues/11162",
+        "title": "[RFC] SFA DSA-CP o_proj TP weight ownership and validation",
+        "state": "open",
+        "relation": "related_not_duplicate",
+        "evidence": "开放 RFC 针对同一模型内同时保存 full o_proj 和 TP shard 的重复参数储存，要求一个持久参数来源并临时 gather。它不讨论模型/进程组销毁后类级 scratch pool 的 Python 强引用，未提出清理该缓存。"
+      }
+    ],
+    "dedupe_verdict": "no_duplicate_found",
+    "confidence": "high_for_current_defect; medium_high_for_deduplication",
+    "caveats": [
+      "检索覆盖开放与已关闭的 issue，以及开放、已关闭未合并和已合并 PR；结论是已执行查询中未找到重复，不保证未索引、未公开或不同措辞的讨论不存在。全部本地验证仅为 CPU/mock/Python 引用及控制流验证，无 NPU 执行证据。",
+      "只声称跨模型/进程组生命周期或不同 shape/capture capacity 造成的保留；不是每 token 泄漏。",
+      "CPU 测试使用真实 weakref/gc 和源方法，分配器返回弱引用兼容对象；验证两个活动 owner 共享且任一仍存活时不会释放。未证明某个设备 allocator 的实际释放时间或 NPU 图重放行为。"
+    ],
+    "proposal": "可发布 SFA+DSA 池改 WeakValueDictionary 的集中 PR。正文解释当前 projection 属性及 WeightSwitchGatherPart 的强所有权，说明弱池不缩短活动 owner 的存储寿命，并引用 #18265 的 sharing 需求。",
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still_present",
+      "baseline_evidence": "audit/publication/research/phase2-current-main-tests.json",
+      "original_patch_applies_cleanly": true,
+      "patched_test_passes": true,
+      "patched_evidence": "audit/publication/research/phase2-current-main-patched-tests.json",
+      "hardware_used": false
+    },
+    "checked_at": "2026-11-04"
+  },
+  {
+    "id": "ASCEND-011",
+    "queries": [
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"penalties\" \"Triton\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"RejectionSampler.apply_penalties\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"penalties\" \"fallback\""
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/15235",
+        "title": "[BugFix][310P] Fall back for unsupported penalty kernels",
+        "state": "open",
+        "relation": "same_defect_fixed_in_open_pr",
+        "evidence": "已读当前 head 61cc11530751efb797ff1b940c28bb4c643d249e diff。no-Triton 分支扩展为 no-Triton 或 310P 不支持；它将 prompt_token_ids、presence_penalties、frequency_penalties、repetition_penalties 按 repeat_indices 扩行后才调用普通 Sampler，并新增 speculative-row expansion 测试。因此虽然标题是 310P fallback，实际 diff 同时修复本审计的 no-Triton 行数契约。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/issues/15161",
+        "title": "[Bug]: vllm ascend 0.23.0不支持penalty参数",
+        "state": "open",
+        "relation": "related_trigger_for_existing_pr",
+        "evidence": "开放 issue 报告 310P 上设置 presence_penalty=1.5 崩溃，是 #15235 声明的修复目标；其正文未证明本审计的两请求 draft-row mismatch，但关联 PR 已覆盖该问题。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/6979",
+        "title": "[Triton][Sampler]add penalty-related triton kernel for better performance of penalties",
+        "state": "closed_unmerged",
+        "relation": "related_not_fix",
+        "evidence": "已关闭未合并的 Triton penalty 性能实现草案，不是当前 fallback 行扩展修复；用于追溯相关上下文。"
+      }
+    ],
+    "dedupe_verdict": "covered_by_open_pr",
+    "confidence": "high",
+    "caveats": [
+      "检索覆盖开放与已关闭的 issue，以及开放、已关闭未合并和已合并 PR；结论是已执行查询中未找到重复，不保证未索引、未公开或不同措辞的讨论不存在。全部本地验证仅为 CPU/mock/Python 引用及控制流验证，无 NPU 执行证据。",
+      "当前 main 仍失败并不代表没有修复正在评审。#15235 的实现与本审计直接委托 RejectionSampler 不同，但修复同一缺少 repeat_indices 扩行机制。",
+      "原 mock 用例断言具体委托到 RejectionSampler；若用于检验 #15235，需改为行为/shape 测试，不能因其合法实现不同而判它失败。"
+    ],
+    "proposal": "跳过新 issue/PR。若需要贡献，在已授权范围内向 #15235 补充 HAS_TRITON=False、两请求且不同 draft 长度的行为回归证据，或者单独建议复用上游 RejectionSampler，避免重复实现。此研究任务没有实际发表评论。",
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still_present",
+      "baseline_evidence": "audit/publication/research/phase2-current-main-tests.json",
+      "original_patch_applies_cleanly": true,
+      "patched_test_passes": true,
+      "patched_evidence": "audit/publication/research/phase2-current-main-patched-tests.json",
+      "hardware_used": false
+    },
+    "checked_at": "2026-11-04"
+  },
+  {
+    "id": "ASCEND-012",
+    "queries": [
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"memcpy\" \"sleep\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"memcpy\" \"sleep\""
+      },
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"memcpy\" \"return\" \"sleep\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"memcpy\" \"return\" \"sleep\""
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/13757",
+        "title": "[BugFix][Device Allocator] Fix CaMem sleep race with in-flight graph replay",
+        "state": "merged",
+        "relation": "related_different_fix",
+        "evidence": "已合并 diff 在 sleep 遍历/unmap 之前增加 torch.npu.synchronize()，用于排空 in-flight 图重放，避免提前释放仍被内核使用的页面。没有检查 ACL memcpy 返回码，也未修正 dest_max，不能替代本修复。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/20724",
+        "title": "[Refactor] Reuse upstream pool bookkeeping in CaMemAllocator",
+        "state": "merged",
+        "relation": "related_not_fix",
+        "evidence": "当前 main 已合并的 CaMem refactor 只复用上游 allocator_and_pools/release_pools bookkeeping，并调整同 tag pool 列表；sleep/wake 的 raw memcpy 及错误状态转移保持不变。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/19194",
+        "title": "[Refactor] Make CaMemAllocator inherit CuMemAllocator",
+        "state": "closed_unmerged",
+        "relation": "related_not_fix",
+        "evidence": "已关闭未合并的继承 CuMemAllocator 重构草案，diff 仍把 ptr+size*2 作为 dest_max，并忽略 memcpy 返回码；配套测试也保留地址派生容量断言。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/issues/977",
+        "title": "[Bug]: The sleep mode in version 0.8.4rc2 cannot properly release NPU memory when called in the veRL framework",
+        "state": "closed",
+        "relation": "related_different_root_cause",
+        "evidence": "正文定位 python_malloc_callback 未注册使 pointer_to_data 为空，多机场景 sleep 没有遍历/释放 allocation。虽粘贴旧 memcpy 源码且评论报告 wake 后 KL 漂移，未建立 raw ACL 非零返回码被忽略的因果；已读全部评论，最终因无反馈关闭，不应据此宣称本错误已修复或解释其历史精度症状。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/issues/16558",
+        "title": "[RFC] Sleep-mode tensor ownership and recovery on Ascend",
+        "state": "open",
+        "relation": "related_not_duplicate",
+        "evidence": "开放 RFC 讨论非 KV 持久张量误落入 kv_cache tag 后被按设计丢弃，以及恢复所有权协议；不是本次正确标记 weights 的 ACL copy 失败被当成功处理。"
+      }
+    ],
+    "dedupe_verdict": "no_duplicate_found",
+    "confidence": "high_for_current_defect; medium_high_for_deduplication",
+    "caveats": [
+      "检索覆盖开放与已关闭的 issue，以及开放、已关闭未合并和已合并 PR；结论是已执行查询中未找到重复，不保证未索引、未公开或不同措辞的讨论不存在。全部本地验证仅为 CPU/mock/Python 引用及控制流验证，无 NPU 执行证据。",
+      "破坏性状态转移以 ACL memcpy 返回非零为前提，CPU mock 注入该返回值；不声称在目标硬件已经触发该错误。",
+      "dest_max 是容量而不是地址。本测试证明参数错误；count 仍正确，不能仅因容量过大声称发生越界写。",
+      "wake 重试保证依赖 native unmap/release rollback 成功；rollback 自身失败仍属另外的致命情况。"
+    ],
+    "proposal": "可发布独立 allocator failure-preservation PR，引用 #13757 并解释先同步解决并发释放、返回码检查解决失败后提交破坏性状态，两者独立。包括 memcpy 容量、D2H 保留有效设备映射、H2D 保留备份和 retry 的测试。",
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still_present",
+      "baseline_evidence": "audit/publication/research/phase2-current-main-tests.json",
+      "original_patch_applies_cleanly": true,
+      "patched_test_passes": true,
+      "patched_evidence": "audit/publication/research/phase2-current-main-patched-tests.json",
+      "hardware_used": false
+    },
+    "checked_at": "2026-11-04"
+  },
+  {
+    "id": "ASCEND-013",
+    "queries": [
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"_recv_buffer_reuse_event\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"recv_buffer_reuse_event\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"ECMemcacheConnector\" \"shutdown\""
+      },
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"encoder\" \"shutdown\""
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/17649",
+        "title": "EC L2 Cache",
+        "state": "open",
+        "relation": "same_defect_fixed_in_open_pr",
+        "evidence": "已读当前 head 737f6b0d2433091bbb7a5b5a182636996bd7892f diff；_wait_recv_buffer_reusable 的 event = self._recv_buffer_reuse_event 改为 event = getattr(self, \"_recv_buffer_reuse_event\", None)，与本审计补丁相同的一行，允许 scheduler role 没有 worker event。PR 同时新增缓存 matcher 等大范围功能，但这行已覆盖当前 bug。"
+      }
+    ],
+    "dedupe_verdict": "covered_by_open_pr",
+    "confidence": "high",
+    "caveats": [
+      "检索覆盖开放与已关闭的 issue，以及开放、已关闭未合并和已合并 PR；结论是已执行查询中未找到重复，不保证未索引、未公开或不同措辞的讨论不存在。全部本地验证仅为 CPU/mock/Python 引用及控制流验证，无 NPU 执行证据。",
+      "当前 main baseline 的 scheduler shutdown 仍 AttributeError；开放修复 PR 尚未合并。不要因为 #17649 标题为 EC L2 Cache 就忽略其 teardown 修复。"
+    ],
+    "proposal": "跳过新 issue/PR。可向 #17649 提供本次 scheduler 正常构造、重复 shutdown、worker event 同步控制的 CPU 回归测试，或建议作者把这行修复拆为独立 PR；本研究未发表评论。",
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still_present",
+      "baseline_evidence": "audit/publication/research/phase2-current-main-tests.json",
+      "original_patch_applies_cleanly": true,
+      "patched_test_passes": true,
+      "patched_evidence": "audit/publication/research/phase2-current-main-patched-tests.json",
+      "hardware_used": false
+    },
+    "checked_at": "2026-11-04"
+  },
+  {
+    "id": "ASCEND-014",
+    "queries": [
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"W4A16\" \"group_size\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"W4A16\" \"group_size\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"compressed\" \"group_size\""
+      },
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"group_size\" \"32\""
+      },
+      {
+        "tool": "authenticated GitHub search_prs",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"W4A16\" \"group\" \"config\""
+      },
+      {
+        "tool": "authenticated GitHub search_issues",
+        "scope": "vllm-project/vllm-ascend",
+        "states": "all",
+        "query": "repo:vllm-project/vllm-ascend \"compressed-tensors\" \"W4A16\""
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/issues/6481",
+        "title": "[Bug]: vLLM Ascend doesn't support W4A16 for linear.",
+        "state": "closed",
+        "relation": "different_defect",
+        "evidence": "已关闭 not_planned issue 使用 ModelSlim W4A16 Qwen2.5 dense/linear，报不支持 W4A16 for linear。当前审计是已登记 MoE W4A16 scheme 接受 compressed-tensors nested group_size 后错用顶层/default32，不能合并为一个问题。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/issues/7076",
+        "title": "[Bug]: kimi 2.5部署报错：No compressed-tensors compatible scheme was found for quant_type=W4A16, layer_type=linear",
+        "state": "open",
+        "relation": "different_defect",
+        "evidence": "开放 issue 的堆栈终止于 Kimi vision tower 的 ColumnParallelLinear，并明确 quant_type=W4A16, layer_type=linear 不支持。虽同属 compressed-tensors，但不是已支持 MoE 的 group_size 丢失。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/issues/5350",
+        "title": "[RFC]: Support compressed tensors quantization for LLM Compressor",
+        "state": "open",
+        "relation": "related_support_contract",
+        "evidence": "开放 RFC 任务列表明确 dense W4A16 尚未完成、MoE W4A16 已完成并链接 #4516，支持将本缺陷限定到 MoE。未报告每层 nested group_size 被32覆盖。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/4516",
+        "title": "[Feat] Support native Kimi-K2-Thinking native W4A16 quantized experts weights",
+        "state": "merged",
+        "relation": "related_origin_not_fix",
+        "evidence": "已合并原生 W4A16 MoE 支持 diff 从顶层 quant_description.get(group_size,32) 取值；新增测试的 top-level group_size=32。没有覆盖后来 compressed-tensors config_groups.*.weights.group_size 的转发。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/14030",
+        "title": "[Refactor][Quantization] Reorganize quantization module: group configs and methods into subdirectories",
+        "state": "merged",
+        "relation": "related_not_fix",
+        "evidence": "已合并量化目录重构；相关 factory 仍以 scheme_cls() 无参构造 W4A16，未修复每层 weight_quant.group_size 转发。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/15223",
+        "title": "[Feature][Quantization] Support compressed-tensors MXFP4 for GLM-5.2 and DeepSeek-V4",
+        "state": "merged",
+        "relation": "related_not_fix",
+        "evidence": "已合并 MXFP4/MXFP8 compressed-tensors 支持，解决 mixed formats 和 packed checkpoint 名称，未修改 INT4 W4A16 scheme 的 group_size 转发。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/7672",
+        "title": "[Quantization][Feature] Add AWQ quantization for Ascend",
+        "state": "open",
+        "relation": "related_different_format",
+        "evidence": "开放 AWQ PR 解析独立 AWQConfig 的顶层 q_group_size/group_size 并传入 AWQ scheme；没有修复 compressed-tensors MoE W4A16 的 nested config group。"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/6603",
+        "title": "[Quantization] Add GPTQ quantization support for Ascend NPU",
+        "state": "closed_unmerged",
+        "relation": "related_different_format",
+        "evidence": "已关闭未合并 GPTQ PR 解析 quantize_config.json 并实现线性层；正文明确 MoE 不支持，与本缺陷不同。"
+      }
+    ],
+    "dedupe_verdict": "no_duplicate_found",
+    "confidence": "high_for_current_defect; medium_high_for_deduplication",
+    "caveats": [
+      "检索覆盖开放与已关闭的 issue，以及开放、已关闭未合并和已合并 PR；结论是已执行查询中未找到重复，不保证未索引、未公开或不同措辞的讨论不存在。全部本地验证仅为 CPU/mock/Python 引用及控制流验证，无 NPU 执行证据。",
+      "scope 仅已接受的 grouped INT4 MoE W4A16 scheme；不声明支持 W4A16 linear，也不承诺所有外部 checkpoint 兼容。",
+      "本 CPU 验证读取实际 factory、scheme 构造与 scale shape 方法，测试 group64/128 和 ModelSlim 兼容；未运行 NPU kernel 或真实大型 checkpoint 加载。"
+    ],
+    "proposal": "可发布 per-layer group_size 转发 PR，保留 ModelSlim 顶层/default 行为。正文显式区分 #6481、#7076 的 linear unsupported，避免把新 PR 表述成广义 W4A16 支持。",
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still_present",
+      "baseline_evidence": "audit/publication/research/phase2-current-main-tests.json",
+      "original_patch_applies_cleanly": true,
+      "patched_test_passes": true,
+      "patched_evidence": "audit/publication/research/phase2-current-main-patched-tests.json",
+      "hardware_used": false
+    },
+    "checked_at": "2026-11-04"
+  }
+]

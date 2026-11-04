@@ -1,0 +1,34 @@
+test_background_child_keeps_lock_until_exit (__main__.WorkerUninstallLockTest.test_background_child_keeps_lock_until_exit) ... FAIL
+test_failed_contender_cannot_unlink_active_lock (__main__.WorkerUninstallLockTest.test_failed_contender_cannot_unlink_active_lock) ... FAIL
+test_failed_spawn_releases_the_acquired_lock (__main__.WorkerUninstallLockTest.test_failed_spawn_releases_the_acquired_lock) ... ok
+test_missing_script_does_not_create_a_lock_or_spawn (__main__.WorkerUninstallLockTest.test_missing_script_does_not_create_a_lock_or_spawn) ... ok
+test_real_child_holds_lock_until_harmless_script_exits (__main__.WorkerUninstallLockTest.test_real_child_holds_lock_until_harmless_script_exits) ... FAIL
+
+======================================================================
+FAIL: test_background_child_keeps_lock_until_exit (__main__.WorkerUninstallLockTest.test_background_child_keeps_lock_until_exit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-004/tests/ut/worker/test_worker_uninstall_lock.py", line 75, in test_background_child_keeps_lock_until_exit
+    self.assertEqual(popen.call_count, 1, "two workers launched concurrent uninstallers")
+AssertionError: 2 != 1 : two workers launched concurrent uninstallers
+
+======================================================================
+FAIL: test_failed_contender_cannot_unlink_active_lock (__main__.WorkerUninstallLockTest.test_failed_contender_cannot_unlink_active_lock)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-004/tests/ut/worker/test_worker_uninstall_lock.py", line 58, in test_failed_contender_cannot_unlink_active_lock
+    self.assertTrue(self.lock_path.exists(), "losing worker removed another worker's lock")
+AssertionError: False is not true : losing worker removed another worker's lock
+
+======================================================================
+FAIL: test_real_child_holds_lock_until_harmless_script_exits (__main__.WorkerUninstallLockTest.test_real_child_holds_lock_until_harmless_script_exits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-004/tests/ut/worker/test_worker_uninstall_lock.py", line 120, in test_real_child_holds_lock_until_harmless_script_exits
+    with self.lock_path.open("w") as contender, self.assertRaises(BlockingIOError):
+AssertionError: BlockingIOError not raised
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.102s
+
+FAILED (failures=3)

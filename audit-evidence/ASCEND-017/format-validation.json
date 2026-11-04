@@ -1,0 +1,30 @@
+{
+  "worktree": "/tmp/vllm-ascend-pr-017",
+  "command": [
+    "bash",
+    "format.sh",
+    "ci"
+  ],
+  "included_files": [
+    "tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py",
+    "vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake/base_worker.py",
+    "vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake/connector.py",
+    "vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake/pull_worker.py"
+  ],
+  "temporary_index": "/tmp/vllm-audit-tools/format-index-017",
+  "process_env_overrides": [
+    "PATH",
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "PIP_CERT=/etc/ssl/cert.pem",
+    "SSL_CERT_FILE=/etc/ssl/cert.pem",
+    "PIP_DEFAULT_TIMEOUT=60",
+    "PIP_FIND_LINKS=/tmp/vllm-audit-tools/downloads",
+    "RAYON_NUM_THREADS=1",
+    "GIT_INDEX_FILE"
+  ],
+  "status_before": " M vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake/base_worker.py\n M vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake/connector.py\n M vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake/pull_worker.py\n?? tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py\n",
+  "exit_code": 0,
+  "status_after": " M vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake/base_worker.py\n M vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake/connector.py\n M vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake/pull_worker.py\n?? tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py\n",
+  "unexpected_modified_files": []
+}

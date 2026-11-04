@@ -1,0 +1,100 @@
+{
+  "id": "ASCEND-021",
+  "base_commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+  "upstream_vllm_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+  "worktree": "/tmp/vllm-ascend-pr-021",
+  "test": "tests/ut/simple_kv_offload/test_capacity_contract_cpu.py",
+  "command": [
+    "/tmp/vllm-ascend-audit-venv/bin/python",
+    "tests/ut/simple_kv_offload/test_capacity_contract_cpu.py",
+    "-v"
+  ],
+  "python": "Python 3.11.9",
+  "platform": "macOS-26.7.1-x86_64-i386-64bit",
+  "before": {
+    "exit_code": 1,
+    "tests_run": 7,
+    "failures": 4,
+    "errors": 0,
+    "log": "before.log"
+  },
+  "after": {
+    "exit_code": 0,
+    "tests_run": 7,
+    "failures": 0,
+    "errors": 0,
+    "log": "after.log"
+  },
+  "test_sha256": "2a8d2bb8e0c9e374525b86dac2c1844b0163190a999d1b142e71077875884687",
+  "production_patch": "audit/publication/drafts/ASCEND-021/production.patch",
+  "patch_sha256": "1bee6e7b2a58cb85c5c7f79e05293c0ffd4ded5cbed2fbe5bd30dd5c9ef33279",
+  "checks": [
+    {
+      "command": [
+        "/tmp/vllm-ascend-audit-venv/bin/ruff",
+        "check",
+        "vllm_ascend/distributed/kv_transfer/kv_pool/kv_offload/simple/worker.py",
+        "vllm_ascend/distributed/kv_transfer/kv_pool/kv_offload/simple/simple_cpu_offload_connector.py",
+        "tests/ut/simple_kv_offload/test_capacity_contract_cpu.py"
+      ],
+      "exit_code": 0,
+      "output": "All checks passed!\n"
+    },
+    {
+      "command": [
+        "/tmp/vllm-ascend-audit-venv/bin/ruff",
+        "format",
+        "--check",
+        "vllm_ascend/distributed/kv_transfer/kv_pool/kv_offload/simple/worker.py",
+        "vllm_ascend/distributed/kv_transfer/kv_pool/kv_offload/simple/simple_cpu_offload_connector.py",
+        "tests/ut/simple_kv_offload/test_capacity_contract_cpu.py"
+      ],
+      "exit_code": 0,
+      "output": "3 files already formatted\n"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "bash",
+        "format.sh",
+        "ci"
+      ],
+      "exit_code": 0,
+      "log": "format.log",
+      "details": "format-validation.json"
+    }
+  ],
+  "not_run": [
+    "Full repository pytest suite and project conftest environment",
+    "NPU hardware tests",
+    "Model-serving/end-to-end tests"
+  ],
+  "scope": "The test executes actual checked-out Ascend constructor and registration bodies. Main-pin constructor/resolver and v0.32.0 constructor fixtures are copied verbatim from their respective upstream sources and checked by exact source-segment comparison. Synthetic tensor metadata and allocation/backend/distributed boundaries are mocked. Four main-pin contract regressions fail before the fix; three v0.32.0 controls pass before and after. No installed-vLLM, distributed CPU-group reduction or NPU integration result is claimed.",
+  "release_compatibility": {
+    "tag": "v0.32.0",
+    "fixture_url": "https://raw.githubusercontent.com/vllm-project/vllm/v0.32.0/vllm/v1/simple_kv_offload/worker.py",
+    "fixture_source_sha256": "9c4d1805464159360f3a37b759e846716e90b106aceee8104360814125827da3",
+    "tests_run": 3,
+    "original_main_only_patch": {
+      "errors": 3,
+      "log": "main-only-patch-release-regression.log"
+    },
+    "compatibility_guard_patch": {
+      "errors": 0,
+      "log": "after.log"
+    }
+  },
+  "full_format_sh_ci": "passed",
+  "full_format_sh_ci_exit_code": 0,
+  "full_format_sh_ci_log": "format.log",
+  "full_format_sh_ci_details": "format-validation.json",
+  "full_pytest_validation": "not_run"
+}

@@ -1,0 +1,70 @@
+test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) ... 
+  test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) (path='bulk_send') ... FAIL
+  test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) (path='bulk_receive') ... FAIL
+  test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) (path='layer_send') ... FAIL
+  test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) (path='key_send') ... FAIL
+  test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) (path='layer_receive') ... FAIL
+  test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) (path='key_receive') ... FAIL
+test_failed_start_signals_readiness_and_records_error (__main__.TransferThreadStartupTest.test_failed_start_signals_readiness_and_records_error) ... FAIL
+test_successful_start_keeps_normal_handshake (__main__.TransferThreadStartupTest.test_successful_start_keeps_normal_handshake) ... ok
+
+======================================================================
+FAIL: test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) (path='bulk_send')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-020/tests/ut/distributed/ascend_store/test_transfer_thread_startup_cpu.py", line 155, in test_all_worker_readiness_waits_propagate_start_failure
+    with self.assertRaisesRegex(RuntimeError, "device binding failed") as raised:
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) (path='bulk_receive')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-020/tests/ut/distributed/ascend_store/test_transfer_thread_startup_cpu.py", line 155, in test_all_worker_readiness_waits_propagate_start_failure
+    with self.assertRaisesRegex(RuntimeError, "device binding failed") as raised:
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) (path='layer_send')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-020/tests/ut/distributed/ascend_store/test_transfer_thread_startup_cpu.py", line 155, in test_all_worker_readiness_waits_propagate_start_failure
+    with self.assertRaisesRegex(RuntimeError, "device binding failed") as raised:
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) (path='key_send')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-020/tests/ut/distributed/ascend_store/test_transfer_thread_startup_cpu.py", line 155, in test_all_worker_readiness_waits_propagate_start_failure
+    with self.assertRaisesRegex(RuntimeError, "device binding failed") as raised:
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) (path='layer_receive')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-020/tests/ut/distributed/ascend_store/test_transfer_thread_startup_cpu.py", line 155, in test_all_worker_readiness_waits_propagate_start_failure
+    with self.assertRaisesRegex(RuntimeError, "device binding failed") as raised:
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_all_worker_readiness_waits_propagate_start_failure (__main__.TransferThreadStartupTest.test_all_worker_readiness_waits_propagate_start_failure) (path='key_receive')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-020/tests/ut/distributed/ascend_store/test_transfer_thread_startup_cpu.py", line 155, in test_all_worker_readiness_waits_propagate_start_failure
+    with self.assertRaisesRegex(RuntimeError, "device binding failed") as raised:
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_failed_start_signals_readiness_and_records_error (__main__.TransferThreadStartupTest.test_failed_start_signals_readiness_and_records_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-020/tests/ut/distributed/ascend_store/test_transfer_thread_startup_cpu.py", line 54, in test_failed_start_signals_readiness_and_records_error
+    self.assertTrue(state.ready_event.is_set(), "parent would wait forever on startup event")
+AssertionError: False is not true : parent would wait forever on startup event
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.155s
+
+FAILED (failures=7)

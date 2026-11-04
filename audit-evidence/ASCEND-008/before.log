@@ -1,0 +1,37 @@
+Base: 0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3
+Worktree: /tmp/vllm-ascend-pr-008
+Command: python3 tests/ut/test_platform_compute_units_contract.py -v
+Exit code: 1
+
+test_class_keyword_call_matches_platform_contract (__main__.PlatformComputeUnitsTest.test_class_keyword_call_matches_platform_contract) ... ERROR
+test_class_positional_call_preserves_device_id (__main__.PlatformComputeUnitsTest.test_class_positional_call_preserves_device_id) ... FAIL
+test_instance_call_still_works (__main__.PlatformComputeUnitsTest.test_instance_call_still_works) ... ok
+
+======================================================================
+ERROR: test_class_keyword_call_matches_platform_contract (__main__.PlatformComputeUnitsTest.test_class_keyword_call_matches_platform_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-008/tests/ut/test_platform_compute_units_contract.py", line 42, in test_class_keyword_call_matches_platform_contract
+    self.assertEqual(self.platform.num_compute_units(device_id=3), 32)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: NPUPlatform.num_compute_units() missing 1 required positional argument: 'cls'
+
+======================================================================
+FAIL: test_class_positional_call_preserves_device_id (__main__.PlatformComputeUnitsTest.test_class_positional_call_preserves_device_id)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-008/tests/ut/test_platform_compute_units_contract.py", line 47, in test_class_positional_call_preserves_device_id
+    self.npu.get_device_properties.assert_called_once_with(3)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 951, in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 939, in assert_called_with
+    raise AssertionError(_error_message()) from cause
+AssertionError: expected call not found.
+Expected: get_device_properties(3)
+  Actual: get_device_properties(0)
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.042s
+
+FAILED (failures=1, errors=1)

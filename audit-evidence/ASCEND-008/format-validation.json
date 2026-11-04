@@ -1,0 +1,27 @@
+{
+  "worktree": "/tmp/vllm-ascend-pr-008",
+  "command": [
+    "bash",
+    "format.sh",
+    "ci"
+  ],
+  "included_files": [
+    "tests/ut/test_platform_compute_units_contract.py",
+    "vllm_ascend/platform.py"
+  ],
+  "temporary_index": "/tmp/vllm-audit-tools/format-index-008",
+  "process_env_overrides": [
+    "PATH",
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "PIP_CERT=/etc/ssl/cert.pem",
+    "SSL_CERT_FILE=/etc/ssl/cert.pem",
+    "PIP_DEFAULT_TIMEOUT=60",
+    "PIP_FIND_LINKS=/tmp/vllm-audit-tools/downloads",
+    "GIT_INDEX_FILE"
+  ],
+  "status_before": "A  tests/ut/test_platform_compute_units_contract.py\nM  vllm_ascend/platform.py\n",
+  "exit_code": 0,
+  "status_after": "A  tests/ut/test_platform_compute_units_contract.py\nM  vllm_ascend/platform.py\n",
+  "unexpected_modified_files": []
+}

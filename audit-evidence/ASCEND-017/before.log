@@ -1,0 +1,34 @@
+test_idle_shutdown_stops_receiver_and_is_repeatable (__main__.MooncakeShutdownRepro.test_idle_shutdown_stops_receiver_and_is_repeatable) ... FAIL
+test_shutdown_before_thread_start_releases_executor (__main__.MooncakeShutdownRepro.test_shutdown_before_thread_start_releases_executor) ... FAIL
+test_shutdown_drains_already_queued_requests (__main__.MooncakeShutdownRepro.test_shutdown_drains_already_queued_requests) ... FAIL
+
+======================================================================
+FAIL: test_idle_shutdown_stops_receiver_and_is_repeatable (__main__.MooncakeShutdownRepro.test_idle_shutdown_stops_receiver_and_is_repeatable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-017/tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py", line 90, in test_idle_shutdown_stops_receiver_and_is_repeatable
+    self.assertFalse(
+AssertionError: True is not false : public connector shutdown leaves the receiver blocked in queue.get()
+
+======================================================================
+FAIL: test_shutdown_before_thread_start_releases_executor (__main__.MooncakeShutdownRepro.test_shutdown_before_thread_start_releases_executor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-017/tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py", line 110, in test_shutdown_before_thread_start_releases_executor
+    self.receiver.executor.shutdown.assert_called_once_with(wait=True)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 950, in assert_called_once_with
+    raise AssertionError(msg)
+AssertionError: Expected 'shutdown' to be called once. Called 0 times.
+
+======================================================================
+FAIL: test_shutdown_drains_already_queued_requests (__main__.MooncakeShutdownRepro.test_shutdown_drains_already_queued_requests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-017/tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py", line 103, in test_shutdown_drains_already_queued_requests
+    self.assertFalse(self.receiver.is_alive())
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.121s
+
+FAILED (failures=3)

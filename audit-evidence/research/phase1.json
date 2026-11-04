@@ -1,0 +1,995 @@
+[
+  {
+    "id": "ASCEND-001",
+    "as_of_utc": "2026-11-04T13:59:00Z",
+    "queries": [
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"load_dummy_weights\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 2
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"load_dummy_weights\"",
+        "state": "all",
+        "result_count": 8
+      },
+      {
+        "provider": "web.search",
+        "query": "site:github.com/vllm-project/vllm-ascend \"load_dummy_weights\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.search",
+        "query": "site:github.com/vllm-project/vllm-ascend/pull \"load_dummy_weights\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.search",
+        "query": "site:github.com/vllm-project/vllm-ascend/issues \"dummy\" \"load_model\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.open",
+        "query": "https://github.com/vllm-project/vllm-ascend/issues?q=load_dummy_weights",
+        "note": "GitHub HTML search was blocked by the browsing tool; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.search",
+        "query": "\"vllm-ascend\" \"load_dummy_weights\" \"TypeError\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/issues/18920",
+        "title": "[RFC]: Make NPUWorker Inherit from the vLLM GPU Worker",
+        "state": "open",
+        "relation": "same defect explicitly tracked",
+        "evidence": "RFC divergence inventory item 9 explicitly compares load_model(self) with load_model(self, *, load_dummy_weights=False), identifies the elastic_ep_executor keyword call and resulting exception; phase 0.5c proposes signature widening."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/20864",
+        "title": "[BugFix][Worker] Align loading and dummy contracts (RFC phase 0.5c)",
+        "state": "open",
+        "head_sha": "6d129d6b63f1cae604df77e221a4a9ab786b1bcf",
+        "relation": "same interface defect; pending alternative fix",
+        "evidence": "Actual worker.py diff adds keyword-only load_dummy_weights=False and rejects True with NotImplementedError before allocation. The body links RFC #18920 phase 0.5c. This covers the API mismatch already; its deliberate unsupported-feature error differs from the audit's forwarding/dummy-loader patch."
+      }
+    ],
+    "dedupe_verdict": "Existing open issue and open PR cover the interface gap. Still reproducible on pinned current main, but not eligible for a new unique-defect publication.",
+    "confidence": "high",
+    "caveats": [
+      "The audit's CPU test does not establish end-to-end elastic-EP support on Ascend. Existing PR #20864 deliberately rejects True rather than claiming that support.",
+      "A related historical dummy-loader AttributeError is a different mechanism and is not used as the duplicate basis."
+    ],
+    "proposal": "Skip a new issue/PR. Preserve current-main regression evidence locally and reference #18920 / #20864 in the publication ledger.",
+    "current_main": {
+      "id": "ASCEND-001",
+      "test": "tests/unit/test_repro_p1_load_dummy_weights.py",
+      "source_commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "tests_run": 3,
+      "failures": 0,
+      "errors": 6,
+      "skipped": 0,
+      "worktree": "/tmp/vllm-ascend-publish-main",
+      "upstream_vllm_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still-present",
+      "source_comparison": "Target functions retain the affected behavior; only unrelated edits in worker.py and V2 model_runner.py occurred since the audit baseline.",
+      "evidence": "audit/publication/research/phase1-current-main-tests.json",
+      "original_test_status": "not stale; original failure reproduces"
+    }
+  },
+  {
+    "id": "ASCEND-002",
+    "as_of_utc": "2026-11-04T13:59:00Z",
+    "queries": [
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"logitsprocs_need_output_token_ids\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"logitsprocs_need_output_token_ids\"",
+        "state": "all",
+        "result_count": 3
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "logits history",
+        "state": "open + closed (no state filter)",
+        "result_count": 10
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "logits history",
+        "state": "all",
+        "result_count": 19
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"output_token_ids\" \"reinitialize\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"output_token_ids\" \"reinitialize\"",
+        "state": "all",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"output_token_ids\" \"custom\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"output_token_ids\" \"custom\"",
+        "state": "all",
+        "result_count": 10
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"logits\" \"310P\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 28
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"logits\" \"310P\"",
+        "state": "all",
+        "result_count": 40
+      },
+      {
+        "provider": "web.search",
+        "query": "site:github.com/vllm-project/vllm-ascend \"logitsprocs_need_output_token_ids\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.search",
+        "query": "site:github.com/vllm-project/vllm-ascend/pull \"logits\" \"history\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.open",
+        "query": "https://github.com/vllm-project/vllm-ascend/issues?q=logitsprocs_need_output_token_ids",
+        "note": "GitHub HTML search was blocked by the browsing tool; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.search",
+        "query": "\"vllm-ascend\" \"logits processor\" \"output_token_ids\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/14277",
+        "title": "[BugFix][Sample] Add phase-aware EOS policy for reasoning",
+        "state": "closed-unmerged",
+        "head_sha": "f042106b3799dcb80fdf75f7609380654981be58",
+        "relation": "same V1 batch-reinitialization fix already proposed; closed without merge",
+        "evidence": "The actual diff adds logitsprocs_need_output_token_ids=self.input_batch.logitsprocs_need_output_token_ids to may_reinitialize_input_batch, plus an AST test asserting the rebuilt batch preserves that field. The broader PR concerns an EOS reasoning policy. It does not add the corresponding 310P constructor/reinitialization fixes."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/7789",
+        "title": "[BugFix] fix bug that repetition_penalty is not effective in asynchronous scheduling",
+        "state": "merged",
+        "head_sha": "91cd91255586ad59daed6d813e2b7d1b356edf77",
+        "relation": "related origin, not a complete fix",
+        "evidence": "Merged diff adds update_async_output_token_ids() before sampling and passes logitsprocs_need_output_token_ids only at the initial V1 InputBatch construction. It leaves the later reconstructed batch and 310P paths uncovered."
+      }
+    ],
+    "dedupe_verdict": "V1 reinitialization mechanism has an existing closed-unmerged fix proposal. The additional 310P coverage was not found in reviewed items; the original combined finding cannot be represented as wholly new.",
+    "confidence": "high for V1 overlap; medium for no prior 310P report found",
+    "caveats": [
+      "No reason for closing #14277 was established from its returned body/diff/comments; do not assume a maintainer rejected this particular flag fix.",
+      "The bug needs asynchronous scheduling and an output-history-dependent custom processor without another enabled history consumer; no claim that every sampling path is broken."
+    ],
+    "proposal": "Skip publication of the combined ASCEND-002 as a unique defect. If a future narrowly scoped 310P follow-up is desired, explicitly cite #14277 and #7789 and verify the support/deprecation policy; do not label the entire mechanism new.",
+    "current_main": {
+      "id": "ASCEND-002",
+      "test": "tests/unit/test_repro_p1_v1_logits_history.py",
+      "source_commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "tests_run": 1,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "worktree": "/tmp/vllm-ascend-publish-main",
+      "upstream_vllm_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still-present",
+      "source_comparison": "Target functions retain the affected behavior; only unrelated edits in worker.py and V2 model_runner.py occurred since the audit baseline.",
+      "evidence": "audit/publication/research/phase1-current-main-tests.json",
+      "original_test_status": "not stale; original failure reproduces"
+    }
+  },
+  {
+    "id": "ASCEND-003",
+    "as_of_utc": "2026-11-04T13:59:00Z",
+    "queries": [
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"check_health\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 3
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"check_health\"",
+        "state": "all",
+        "result_count": 5
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"health\" \"swallow\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 6
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"health\" \"swallow\"",
+        "state": "all",
+        "result_count": 4
+      },
+      {
+        "provider": "web.search",
+        "query": "site:github.com/vllm-project/vllm-ascend \"check_health\" \"npu-smi\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.search",
+        "query": "site:github.com/vllm-project/vllm-ascend \"health\" \"swallow\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.open",
+        "query": "https://github.com/vllm-project/vllm-ascend/issues?q=check_health",
+        "note": "GitHub HTML search was blocked by the browsing tool; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.search",
+        "query": "\"vllm-ascend\" \"health check\" github",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/6681",
+        "title": "Add Worker Interface:check_health",
+        "state": "merged",
+        "head_sha": "f441a030d1fd858c4bcf32b0933b837b6fc3003c",
+        "relation": "same defect previously reported in review; origin PR merged without fixing it",
+        "evidence": "Actual merged diff catches Exception around parse_text_output(). Review https://github.com/vllm-project/vllm-ascend/pull/6681#discussion_r2791578660 explicitly describes suppression of the unhealthy-status RuntimeError. Author reply #discussion_r2791628968 intends to distinguish unhealthy cards from tool errors, but the merged control flow suppresses both."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/6677",
+        "title": "Add Worker Interface:check_health",
+        "state": "closed-unmerged",
+        "head_sha": "02886e2641d7a9679f2e587745a172228b0f7c71",
+        "relation": "same defect previously reported in abandoned precursor review",
+        "evidence": "Closed-unmerged predecessor contains review https://github.com/vllm-project/vllm-ascend/pull/6677#discussion_r2791246418 describing swallowed health failures. The author reply says only a definite non-OK card should count as unhealthy."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/10754",
+        "title": "[Misc] Standardize logging and prefixing across ascend modules",
+        "state": "merged",
+        "head_sha": "23334193abf5b2666cd603acd94a83983fd9d138",
+        "relation": "related merged logging change; not a fix",
+        "evidence": "The actual diff changes info logs to warning/error levels but leaves except Exception and return unchanged; no re-raise."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/10312",
+        "title": "[Misc] check logger for framework",
+        "state": "open",
+        "head_sha": "0f8dc61c8f403f345c3ac3f24a7c833bb0fa5e7b",
+        "relation": "related open logging change; not a fix",
+        "evidence": "Body discusses health monitoring robustness, but the current diff only changes logging levels/text in check_health and still catches RuntimeError without re-raising."
+      }
+    ],
+    "dedupe_verdict": "The exact failure-suppression mechanism was already raised in original PR reviews. It remains unfixed on current main; it is not an undisclosed/unique finding under a strict prior-discussion check.",
+    "confidence": "high",
+    "caveats": [
+      "A prior review discussion is not itself an active fix PR. The evidence does not establish why maintainers left the control flow unchanged.",
+      "The reproducer concerns the NPUWorker.check_health/RPC contract only, not every HTTP /health route."
+    ],
+    "proposal": "Do not create a fresh issue as a unique discovery. Record the existing review links and the still-failing CPU regression; any future follow-up should acknowledge the prior discussion.",
+    "current_main": {
+      "id": "ASCEND-003",
+      "test": "tests/unit/test_repro_p1_worker_health.py",
+      "source_commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "tests_run": 2,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "worktree": "/tmp/vllm-ascend-publish-main",
+      "upstream_vllm_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still-present",
+      "source_comparison": "Target functions retain the affected behavior; only unrelated edits in worker.py and V2 model_runner.py occurred since the audit baseline.",
+      "evidence": "audit/publication/research/phase1-current-main-tests.json",
+      "original_test_status": "not stale; original failure reproduces"
+    }
+  },
+  {
+    "id": "ASCEND-004",
+    "as_of_utc": "2026-11-04T13:59:00Z",
+    "queries": [
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"uninstall_static_kernel\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"uninstall_static_kernel\"",
+        "state": "all",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"uninstall\" \"lock\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 4
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"uninstall\" \"lock\"",
+        "state": "all",
+        "result_count": 1
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"static kernel\" \"race\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 1
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"static kernel\" \"race\"",
+        "state": "all",
+        "result_count": 6
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"flock\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"flock\"",
+        "state": "all",
+        "result_count": 8
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"static kernel\" \"uninstall\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 1
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"static kernel\" \"uninstall\"",
+        "state": "all",
+        "result_count": 4
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"uninstall\" \"race\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"uninstall\" \"race\"",
+        "state": "all",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"uninstall\" \"concurrent\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 9
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"uninstall\" \"concurrent\"",
+        "state": "all",
+        "result_count": 4
+      },
+      {
+        "provider": "web.search",
+        "query": "site:github.com/vllm-project/vllm-ascend \"uninstall_static_kernel\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.search",
+        "query": "site:github.com/vllm-project/vllm-ascend \"uninstall\" \"lock\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.search",
+        "query": "\"vllm-ascend\" \"static kernel\" \"uninstall\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.open",
+        "query": "https://github.com/vllm-project/vllm-ascend/issues?q=uninstall_static_kernel",
+        "note": "GitHub HTML search was blocked by the browsing tool; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.search",
+        "query": "\"vllm-ascend\" \"static\" \"uninstall\" github pull",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/6128",
+        "title": "[bugfix][npugraph_ex]fix static kernel uninstall issue",
+        "state": "merged",
+        "head_sha": "77b59321a49b87d7246977652b0c192ecc4a5ec2",
+        "relation": "origin of affected code, not a prior report of this lock defect",
+        "evidence": "The merged feature addresses atexit not running when worker processes are terminated and starts a detached uninstall process. Its actual diff introduces LOCK_NB, Popen, then immediate finally LOCK_UN plus unlink. The body and returned reviews do not identify the lock-lifetime or failed-contender unlink race."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/6320",
+        "title": "[e2e Test][npugraph_ex]add static kernel e2e test case",
+        "state": "merged",
+        "head_sha": "af7cf11c55ac3473ced81537e1edbcb490d23a1b",
+        "relation": "related installation lifecycle test, different scope",
+        "evidence": "Merged E2E test verifies that the static-kernel directory disappears after model teardown. It does not test concurrent workers, holding flock through the child lifetime, or lock inode replacement."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/9315",
+        "title": "[BugFix][Build] Keep custom op uninstall script removable",
+        "state": "merged",
+        "head_sha": "e392d21d915fdf742c1a46573da5b6de5576e52d",
+        "relation": "related terminology only",
+        "evidence": "Merged diff only chmods the generated custom-op scripts directory so a non-root source build can delete uninstall.sh. It changes csrc/build_aclnn.sh, not the worker's runtime uninstall.lock."
+      }
+    ],
+    "dedupe_verdict": "No prior issue/PR reporting or fixing the same detached-child lock lifetime / contender-unlink race was found in the recorded searches as of the cutoff. The source and CPU POSIX-lock reproduction remain affected.",
+    "confidence": "medium-high",
+    "caveats": [
+      "Search is bounded and index-dependent; this is not a proof of absolute uniqueness.",
+      "The CPU test uses real POSIX flock/descriptor duplication and a mocked Popen; it does not run the Ascend uninstall script or establish hardware-side consequences."
+    ],
+    "proposal": "Eligible for a narrowly scoped issue and fix PR after the root agent completes publication review. Cite #6128 as the origin, preserve the lock inode, and keep the acquired descriptor alive in the detached child.",
+    "current_main": {
+      "id": "ASCEND-004",
+      "test": "tests/unit/test_repro_p1_worker_uninstall_lock.py",
+      "source_commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "tests_run": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "worktree": "/tmp/vllm-ascend-publish-main",
+      "upstream_vllm_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still-present",
+      "source_comparison": "Target functions retain the affected behavior; only unrelated edits in worker.py and V2 model_runner.py occurred since the audit baseline.",
+      "evidence": "audit/publication/research/phase1-current-main-tests.json",
+      "original_test_status": "not stale; original failure reproduces"
+    }
+  },
+  {
+    "id": "ASCEND-005",
+    "as_of_utc": "2026-11-04T13:59:00Z",
+    "queries": [
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"is_padding\" \"EPLB\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"is_padding\" \"EPLB\"",
+        "state": "all",
+        "result_count": 4
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"padding\" \"MRv2\" \"EPLB\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 8
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"padding\" \"MRv2\" \"EPLB\"",
+        "state": "all",
+        "result_count": 25
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"is_padding\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 2
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"is_padding\"",
+        "state": "all",
+        "result_count": 17
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"padding mask\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 24
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"padding mask\"",
+        "state": "all",
+        "result_count": 40
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"is_padding\" \"stale\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"is_padding\" \"stale\"",
+        "state": "all",
+        "result_count": 5
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"EPLB\" \"dummy\" \"mask\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 11
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"EPLB\" \"dummy\" \"mask\"",
+        "state": "all",
+        "result_count": 27
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"padding\" \"stale\" \"worker\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 40
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"padding\" \"stale\" \"worker\"",
+        "state": "all",
+        "result_count": 40
+      },
+      {
+        "provider": "web.search",
+        "query": "site:github.com/vllm-project/vllm-ascend \"is_padding\" \"EPLB\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.search",
+        "query": "\"vllm-ascend\" \"padding mask\" \"EPLB\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/16906",
+        "title": "[Feature][MRV2] Support DSV3.1 fine-grained Embedding and MLP TP",
+        "state": "open",
+        "head_sha": "e16a57b00fbd9bfe435c361754405e82a339f0d2",
+        "relation": "same stale reusable-padding-mask mechanism and pending fix",
+        "evidence": "The body explicitly says it clears the reusable padding mask between steps. Actual older-runner prepare_inputs diff unconditionally fills is_padding[:num_tokens_after_padding] False, then fills the tail True before its FineTP-specific branch. The comment names padding-to-no-padding transitions. This corresponds to current _prepare_inputs_impl and is not gated solely on FineTP."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/18549",
+        "title": "[BugFix][MoE] Fix A5 AllGather with MRV2 EPLB",
+        "state": "merged",
+        "head_sha": "e409edd82afb4b532d919f87f5362766a1599d7f",
+        "relation": "related merged consumer-side EPLB fix; not the target-buffer initialization fix",
+        "evidence": "Actual diff adds source-mask-aware AllGather load accounting and draft-owned masks; it reads target forward-context is_padding but does not refresh the target input buffer in _prepare_inputs_impl."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/20726",
+        "title": "[Performance][EPLB] Gather the source-eligibility mask once per forward",
+        "state": "open",
+        "head_sha": "27108b6e2c273fddf66a756458af9f82c7ff1b9b",
+        "relation": "related open optimization; not the same fix",
+        "evidence": "Caches the derived AllGather eligibility mask per forward/microbatch; it does not reset the reusable target InputBuffers.is_padding state."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/19175",
+        "title": "[MRV2][PCP] Partition the unpadded global batch; keep graph padding private",
+        "state": "open",
+        "head_sha": "3c691fe1e438dda908782a52e04c36facf5bebfa",
+        "relation": "related open PCP layout change; not the same fix",
+        "evidence": "Separates unpadded global batch views from private attention graph padding. Its diff changes PCP layout and draft staging, not the missing target mask initialization."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/16823",
+        "title": "[Performance][Worker] Restore selective eager DP padding with graph safety",
+        "state": "merged",
+        "head_sha": "2a820781331d7936971c5603d5093a713c1a94ad",
+        "relation": "related merged MRV1 padding policy; different runner and mechanism",
+        "evidence": "Restores selective eager MRV1 DP padding with graph-safety guards; it does not address MRV2's persistent is_padding buffer."
+      }
+    ],
+    "dedupe_verdict": "An existing open PR contains the same unconditional mask refresh and explicitly describes the stale-mask transition. Current main still reproduces it, but a new duplicate PR should not be filed.",
+    "confidence": "high",
+    "caveats": [
+      "#16906 was authored before the method was renamed from prepare_inputs to _prepare_inputs_impl; the relevant state transition and fix are the same.",
+      "CPU tensor tests prove stale mask values; no NPU benchmark or resulting model-quality effect was measured."
+    ],
+    "proposal": "Skip a new issue/PR for ASCEND-005; retain evidence and reference #16906. Avoid confusing this with independent AllGather load-accounting work.",
+    "current_main": {
+      "id": "ASCEND-005",
+      "test": "tests/unit/test_repro_p1_v2_padding_mask.py",
+      "source_commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "tests_run": 3,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "worktree": "/tmp/vllm-ascend-publish-main",
+      "upstream_vllm_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still-present",
+      "source_comparison": "Target functions retain the affected behavior; only unrelated edits in worker.py and V2 model_runner.py occurred since the audit baseline.",
+      "evidence": "audit/publication/research/phase1-current-main-tests.json",
+      "original_test_status": "not stale; original failure reproduces"
+    }
+  },
+  {
+    "id": "ASCEND-006",
+    "as_of_utc": "2026-11-04T13:59:00Z",
+    "queries": [
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"_dspark_prefill_progress\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"_dspark_prefill_progress\"",
+        "state": "all",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"DSpark\" \"cancel\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 6
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"DSpark\" \"cancel\"",
+        "state": "all",
+        "result_count": 18
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"DSpark\" \"prefill\" \"cleanup\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 5
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"DSpark\" \"prefill\" \"cleanup\"",
+        "state": "all",
+        "result_count": 25
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"DSpark\" \"leak\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 11
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"DSpark\" \"leak\"",
+        "state": "all",
+        "result_count": 29
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"prefill_progress\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"prefill_progress\"",
+        "state": "all",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"_maybe_send_draft_kv\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 0
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"_maybe_send_draft_kv\"",
+        "state": "all",
+        "result_count": 1
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"DSpark\" \"finished_req_ids\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 2
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"DSpark\" \"finished_req_ids\"",
+        "state": "all",
+        "result_count": 2
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"draft\" \"prefill\" \"progress\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 25
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"draft\" \"prefill\" \"progress\"",
+        "state": "all",
+        "result_count": 40
+      },
+      {
+        "provider": "web.search",
+        "query": "site:github.com/vllm-project/vllm-ascend \"_dspark_prefill_progress\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.search",
+        "query": "\"vllm-ascend\" \"DSpark\" \"cancel\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/17900",
+        "title": "[Feature][KV Offload] Support GLM-5.2 V2 sparse offload with PP and DSpark",
+        "state": "merged",
+        "head_sha": "ec4338b925fa9b47505a6dbacc8f0a3af4e1c36e",
+        "relation": "origin of affected DSpark sender; not a prior report of missing cancellation cleanup",
+        "evidence": "Merged diff creates _dspark_prefill_progress and _maybe_send_draft_kv. It returns when no metadata entry has a DSpark generation, and again for absent execution state, before send_dspark_prefill_kv receives finished_req_ids. Returned lifecycle review discusses sending only after successful forward / outside target DP scope, not clearing cancelled-request progress before those guards."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/11125",
+        "title": "[Feature][DSpark] Adapt DeepSeek DSpark (aligned with upstream vllm #46995)",
+        "state": "closed-unmerged",
+        "head_sha": "0199aae29b3157c5ea0f1fb4b6de7e44d56d2b89",
+        "relation": "related DSpark feature proposal; different implementation",
+        "evidence": "Closed-unmerged early DSpark proposal discusses model loading, proposer routing and pending eager/graph support; its diff does not contain the progress registry or sender helper."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/20914",
+        "title": "[Attention][BugFix] Use request incarnation IDs for sparse KV offload",
+        "state": "open",
+        "head_sha": "b3eb96397763525fdf6429367ea426c4af17be19",
+        "relation": "related request-lifecycle fix, different cache and mechanism",
+        "evidence": "Open PR replaces Adler32 request-owner identities in sparse offload with incarnation IDs; its diff does not change _dspark_prefill_progress or _maybe_send_draft_kv."
+      }
+    ],
+    "dedupe_verdict": "No existing issue/PR describing or fixing the same early-return bypass of finished-request progress cleanup was found in the recorded searches as of the cutoff. It remains reproducible on current main.",
+    "confidence": "medium-high",
+    "caveats": [
+      "Search is bounded and index-dependent; absence of a match does not prove absolute uniqueness.",
+      "The demonstrated retained values are request-ID/generation/progress Python state, not a demonstrated NPU tensor-memory leak. The relevant trigger is a cancelled partial prefill whose finished notification occurs with no active DSpark metadata or no execution state."
+    ],
+    "proposal": "Eligible for a focused issue and fix PR after publication review. Cite #17900 as the feature origin and remove finished entries before sender early-return guards.",
+    "current_main": {
+      "id": "ASCEND-006",
+      "test": "tests/unit/test_repro_p1_v2_dspark_cleanup.py",
+      "source_commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "tests_run": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "worktree": "/tmp/vllm-ascend-publish-main",
+      "upstream_vllm_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still-present",
+      "source_comparison": "Target functions retain the affected behavior; only unrelated edits in worker.py and V2 model_runner.py occurred since the audit baseline.",
+      "evidence": "audit/publication/research/phase1-current-main-tests.json",
+      "original_test_status": "not stale; original failure reproduces"
+    }
+  },
+  {
+    "id": "ASCEND-007",
+    "as_of_utc": "2026-11-04T13:59:00Z",
+    "queries": [
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "issues",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"transdata\"",
+        "state": "open + closed (no state filter)",
+        "result_count": 7
+      },
+      {
+        "provider": "authenticated GitHub connector",
+        "kind": "prs",
+        "repository": "vllm-project/vllm-ascend",
+        "query": "\"transdata\"",
+        "state": "all",
+        "result_count": 13
+      },
+      {
+        "provider": "web.search",
+        "query": "site:github.com/vllm-project/vllm-ascend \"transdata\" \"padding\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      },
+      {
+        "provider": "web.search",
+        "query": "\"vllm-ascend\" \"ND\" \"NZ\" \"padding\" \"pull\"",
+        "note": "Preliminary search; superseded by authenticated connector search."
+      }
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/16783",
+        "title": "[BugFix][Attention] Fix transdata F.pad row/col swap for non-aligned inputs",
+        "state": "open",
+        "head_sha": "1e746ce668a1fec21b92fd8d76f5e94390018b03",
+        "relation": "same defect and same pending fix",
+        "evidence": "Actual diff swaps F.pad(nd_mat, (0, r_pad, 0, c_pad)) to (0, c_pad, 0, r_pad), with CPU non-aligned and aligned controls. Body covers both reshape-size errors and silent layout corruption, and notes currently aligned SFA callers."
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/18433",
+        "title": " [BugFix][Attention] Correct F.pad dimension order in transdata",
+        "state": "open",
+        "head_sha": "b3f11a17b6dfc5102503b216b09ad7a8043a4a3d",
+        "relation": "same defect and same pending fix; second existing PR",
+        "evidence": "Actual diff performs the same pad-tuple swap and adds independent row/column padding plus non-multiple block-layout tests."
+      }
+    ],
+    "dedupe_verdict": "Two open PRs already report and fix the identical transdata row/column pad swap. Still present on current main, but clearly duplicate.",
+    "confidence": "high",
+    "caveats": [
+      "Aligned standard model dimensions are unaffected; the defect is the documented helper's non-aligned synthetic-shape boundary.",
+      "CPU tensor checks do not establish support for arbitrary unaligned model dimensions in downstream NPU kernels."
+    ],
+    "proposal": "Skip any new issue/PR for ASCEND-007; reference #16783 and #18433.",
+    "current_main": {
+      "id": "ASCEND-007",
+      "test": "tests/unit/test_repro_p2_attention_transdata.py",
+      "source_commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "tests_run": 1,
+      "failures": 1,
+      "errors": 2,
+      "skipped": 0,
+      "worktree": "/tmp/vllm-ascend-publish-main",
+      "upstream_vllm_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "still-present",
+      "source_comparison": "Target functions retain the affected behavior; only unrelated edits in worker.py and V2 model_runner.py occurred since the audit baseline.",
+      "evidence": "audit/publication/research/phase1-current-main-tests.json",
+      "original_test_status": "not stale; original failure reproduces"
+    }
+  }
+]

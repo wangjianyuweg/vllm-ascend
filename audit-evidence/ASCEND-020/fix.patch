@@ -1,0 +1,68 @@
+diff --git a/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/kv_transfer.py b/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/kv_transfer.py
+index 5af86de..978a6a9 100644
+--- a/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/kv_transfer.py
++++ b/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/kv_transfer.py
+@@ -316,8 +316,13 @@ class KVTransferThread(threading.Thread):
+     def run(self):
+         """Run the thread to handle KV cache transfer requests."""
+         self._set_os_thread_name()
+-        self.m_store.set_device()
+-        self.ready_event.set()
++        try:
++            self.m_store.set_device()
++        except Exception as exc:
++            self._fatal_error = exc
++            return
++        finally:
++            self.ready_event.set()
+         while True:
+             request_data = None
+             try:
+diff --git a/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/layerwise/pool_worker.py b/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/layerwise/pool_worker.py
+index 5d3d7f5..2349f7b 100644
+--- a/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/layerwise/pool_worker.py
++++ b/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/layerwise/pool_worker.py
+@@ -520,6 +520,7 @@ class LayerwiseKVPoolWorker(KVPoolWorker):
+             )
+             self.kv_send_thread.start()
+             ready_event_sending.wait()
++            self.kv_send_thread.raise_if_failed()
+         elif self.can_put:
+             ready_event_sending = threading.Event()
+             self.kv_send_thread = KVCacheStoreKeyLayerSendingThread(
+@@ -538,6 +539,7 @@ class LayerwiseKVPoolWorker(KVPoolWorker):
+             )
+             self.kv_send_thread.start()
+             ready_event_sending.wait()
++            self.kv_send_thread.raise_if_failed()
+         ready_event = threading.Event()
+         if self.use_block_key_layerwise or self.use_layerwise_transfer:
+             self.kv_recv_thread = KVCacheStoreLayerRecvingThread(
+@@ -585,6 +587,7 @@ class LayerwiseKVPoolWorker(KVPoolWorker):
+             self.kv_send_thread.save_disabled = self._save_disabled
+         self.kv_recv_thread.start()
+         ready_event.wait()
++        self.kv_recv_thread.raise_if_failed()
+         self._transfer_threads_started = True
+ 
+     def _register_dspark_prefix_cache(self, draft_caches: dict[str, torch.Tensor]) -> None:
+diff --git a/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/pool_worker.py b/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/pool_worker.py
+index d093f5c..afd0802 100644
+--- a/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/pool_worker.py
++++ b/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/pool_worker.py
+@@ -437,6 +437,7 @@ class KVPoolWorker:
+             )
+             self.kv_send_thread.start()
+             ready_event_sending.wait()
++            self.kv_send_thread.raise_if_failed()
+         if self.load_async:
+             ready_event = threading.Event()
+             self.kv_recv_thread = KVCacheStoreRecvingThread(
+@@ -454,6 +455,7 @@ class KVPoolWorker:
+             )
+             self.kv_recv_thread.start()
+             ready_event.wait()
++            self.kv_recv_thread.raise_if_failed()
+         self._transfer_threads_started = True
+ 
+     def _build_cache_coordinator(self, vllm_config: VllmConfig) -> AscendStoreCoordinator | None:

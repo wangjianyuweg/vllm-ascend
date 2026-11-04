@@ -1,0 +1,12 @@
+Base: 0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3 + audit/patches/ASCEND-014.patch
+Worktree: /tmp/vllm-ascend-pr-014
+Command: python3 tests/ut/quantization/configs/test_w4a16_group_size_cpu.py -v
+Exit code: 0
+
+test_checkpoint_group_size_controls_all_scale_shapes (__main__.GroupSizeRegression.test_checkpoint_group_size_controls_all_scale_shapes) ... ok
+test_modelslim_constructor_keeps_legacy_group_size (__main__.GroupSizeRegression.test_modelslim_constructor_keeps_legacy_group_size) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.013s
+
+OK

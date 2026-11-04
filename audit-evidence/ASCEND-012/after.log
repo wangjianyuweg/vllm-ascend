@@ -1,0 +1,13 @@
+Base: 0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3 + audit/patches/ASCEND-012.patch
+Worktree: /tmp/vllm-ascend-pr-012
+Command: python3 tests/ut/device_allocator/test_camem_copy_failures_cpu.py -v
+Exit code: 0
+
+test_sleep_copy_error_keeps_device_data_live (__main__.AllocatorMemcpyTest.test_sleep_copy_error_keeps_device_data_live) ... ok
+test_successful_roundtrip_uses_destination_capacity_in_bytes (__main__.AllocatorMemcpyTest.test_successful_roundtrip_uses_destination_capacity_in_bytes) ... ok
+test_wakeup_copy_error_preserves_backup_and_can_retry (__main__.AllocatorMemcpyTest.test_wakeup_copy_error_preserves_backup_and_can_retry) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.020s
+
+OK

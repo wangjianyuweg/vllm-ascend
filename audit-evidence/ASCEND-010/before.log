@@ -1,0 +1,29 @@
+Base: 0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3
+Worktree: /tmp/vllm-ascend-pr-010
+Command: python3 tests/ut/attention/test_projection_pool_lifetime_cpu.py -v
+Exit code: 1
+
+test_buffers_share_while_live_and_release_after_both_owners_are_gone (__main__.TestProjectionPoolLifetime.test_buffers_share_while_live_and_release_after_both_owners_are_gone) ... 
+  test_buffers_share_while_live_and_release_after_both_owners_are_gone (__main__.TestProjectionPoolLifetime.test_buffers_share_while_live_and_release_after_both_owners_are_gone) (backend='AscendSFAPCPImpl') ... FAIL
+  test_buffers_share_while_live_and_release_after_both_owners_are_gone (__main__.TestProjectionPoolLifetime.test_buffers_share_while_live_and_release_after_both_owners_are_gone) (backend='AscendDSAPCPImpl') ... FAIL
+
+======================================================================
+FAIL: test_buffers_share_while_live_and_release_after_both_owners_are_gone (__main__.TestProjectionPoolLifetime.test_buffers_share_while_live_and_release_after_both_owners_are_gone) (backend='AscendSFAPCPImpl')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-010/tests/ut/attention/test_projection_pool_lifetime_cpu.py", line 109, in test_buffers_share_while_live_and_release_after_both_owners_are_gone
+    self.assertTrue(all(ref() is None for ref in refs), "Class pool retains all dead projections' scratch")
+AssertionError: False is not true : Class pool retains all dead projections' scratch
+
+======================================================================
+FAIL: test_buffers_share_while_live_and_release_after_both_owners_are_gone (__main__.TestProjectionPoolLifetime.test_buffers_share_while_live_and_release_after_both_owners_are_gone) (backend='AscendDSAPCPImpl')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/vllm-ascend-pr-010/tests/ut/attention/test_projection_pool_lifetime_cpu.py", line 109, in test_buffers_share_while_live_and_release_after_both_owners_are_gone
+    self.assertTrue(all(ref() is None for ref in refs), "Class pool retains all dead projections' scratch")
+AssertionError: False is not true : Class pool retains all dead projections' scratch
+
+----------------------------------------------------------------------
+Ran 1 test in 0.041s
+
+FAILED (failures=2)

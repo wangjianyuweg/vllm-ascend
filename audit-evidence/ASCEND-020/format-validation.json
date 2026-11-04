@@ -1,0 +1,30 @@
+{
+  "worktree": "/tmp/vllm-ascend-pr-020",
+  "command": [
+    "bash",
+    "format.sh",
+    "ci"
+  ],
+  "included_files": [
+    "tests/ut/distributed/ascend_store/test_transfer_thread_startup_cpu.py",
+    "vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/kv_transfer.py",
+    "vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/layerwise/pool_worker.py",
+    "vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/pool_worker.py"
+  ],
+  "temporary_index": "/tmp/vllm-audit-tools/format-index-020",
+  "process_env_overrides": [
+    "PATH",
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "PIP_CERT=/etc/ssl/cert.pem",
+    "SSL_CERT_FILE=/etc/ssl/cert.pem",
+    "PIP_DEFAULT_TIMEOUT=60",
+    "PIP_FIND_LINKS=/tmp/vllm-audit-tools/downloads",
+    "RAYON_NUM_THREADS=1",
+    "GIT_INDEX_FILE"
+  ],
+  "status_before": " M vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/kv_transfer.py\n M vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/layerwise/pool_worker.py\n M vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/pool_worker.py\n?? tests/ut/distributed/ascend_store/test_transfer_thread_startup_cpu.py\n",
+  "exit_code": 0,
+  "status_after": " M vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/kv_transfer.py\n M vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/layerwise/pool_worker.py\n M vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/pool_worker.py\n?? tests/ut/distributed/ascend_store/test_transfer_thread_startup_cpu.py\n",
+  "unexpected_modified_files": []
+}

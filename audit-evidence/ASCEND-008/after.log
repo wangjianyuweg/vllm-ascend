@@ -1,0 +1,13 @@
+Base: 0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3 + audit/patches/ASCEND-008.patch
+Worktree: /tmp/vllm-ascend-pr-008
+Command: python3 tests/ut/test_platform_compute_units_contract.py -v
+Exit code: 0
+
+test_class_keyword_call_matches_platform_contract (__main__.PlatformComputeUnitsTest.test_class_keyword_call_matches_platform_contract) ... ok
+test_class_positional_call_preserves_device_id (__main__.PlatformComputeUnitsTest.test_class_positional_call_preserves_device_id) ... ok
+test_instance_call_still_works (__main__.PlatformComputeUnitsTest.test_instance_call_still_works) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.038s
+
+OK

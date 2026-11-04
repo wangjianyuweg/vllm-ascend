@@ -1,0 +1,30 @@
+{
+  "worktree": "/tmp/vllm-ascend-pr-021",
+  "command": [
+    "bash",
+    "format.sh",
+    "ci"
+  ],
+  "included_files": [
+    "tests/ut/simple_kv_offload/test_capacity_contract_cpu.py",
+    "vllm_ascend/distributed/kv_transfer/kv_pool/kv_offload/simple/simple_cpu_offload_connector.py",
+    "vllm_ascend/distributed/kv_transfer/kv_pool/kv_offload/simple/worker.py"
+  ],
+  "temporary_index": "/tmp/vllm-audit-tools/format-index-021",
+  "process_env_overrides": [
+    "PATH",
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "PIP_CERT=/etc/ssl/cert.pem",
+    "SSL_CERT_FILE=/etc/ssl/cert.pem",
+    "PIP_DEFAULT_TIMEOUT=60",
+    "PIP_FIND_LINKS=/tmp/vllm-audit-tools/downloads",
+    "PRE_COMMIT_NO_CONCURRENCY=1",
+    "RAYON_NUM_THREADS=2",
+    "GIT_INDEX_FILE"
+  ],
+  "status_before": " M vllm_ascend/distributed/kv_transfer/kv_pool/kv_offload/simple/simple_cpu_offload_connector.py\n M vllm_ascend/distributed/kv_transfer/kv_pool/kv_offload/simple/worker.py\n?? tests/ut/simple_kv_offload/test_capacity_contract_cpu.py\n",
+  "exit_code": 0,
+  "status_after": " M vllm_ascend/distributed/kv_transfer/kv_pool/kv_offload/simple/simple_cpu_offload_connector.py\n M vllm_ascend/distributed/kv_transfer/kv_pool/kv_offload/simple/worker.py\n?? tests/ut/simple_kv_offload/test_capacity_contract_cpu.py\n",
+  "unexpected_modified_files": []
+}

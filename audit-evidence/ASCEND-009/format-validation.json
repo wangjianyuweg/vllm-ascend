@@ -1,0 +1,29 @@
+{
+  "worktree": "/tmp/vllm-ascend-pr-009",
+  "command": [
+    "bash",
+    "format.sh",
+    "ci"
+  ],
+  "included_files": [
+    "tests/ut/test_platform_empty_metadata_cpu.py",
+    "vllm_ascend/platform.py"
+  ],
+  "temporary_index": "/tmp/vllm-audit-tools/format-index-009",
+  "process_env_overrides": [
+    "PATH",
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "PIP_CERT=/etc/ssl/cert.pem",
+    "SSL_CERT_FILE=/etc/ssl/cert.pem",
+    "PIP_DEFAULT_TIMEOUT=60",
+    "PIP_FIND_LINKS=/tmp/vllm-audit-tools/downloads",
+    "PRE_COMMIT_NO_CONCURRENCY=1",
+    "RAYON_NUM_THREADS=2",
+    "GIT_INDEX_FILE"
+  ],
+  "status_before": " M vllm_ascend/platform.py\n?? tests/ut/test_platform_empty_metadata_cpu.py\n",
+  "exit_code": 0,
+  "status_after": " M vllm_ascend/platform.py\n?? tests/ut/test_platform_empty_metadata_cpu.py\n",
+  "unexpected_modified_files": []
+}

@@ -1,0 +1,8 @@
+test_idle_shutdown_stops_receiver_and_is_repeatable (__main__.MooncakeShutdownRepro.test_idle_shutdown_stops_receiver_and_is_repeatable) ... ok
+test_shutdown_before_thread_start_releases_executor (__main__.MooncakeShutdownRepro.test_shutdown_before_thread_start_releases_executor) ... ok
+test_shutdown_drains_already_queued_requests (__main__.MooncakeShutdownRepro.test_shutdown_drains_already_queued_requests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.130s
+
+OK

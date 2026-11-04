@@ -1,0 +1,12 @@
+Base: 0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3 + audit/patches/ASCEND-009.patch
+Worktree: /tmp/vllm-ascend-pr-009
+Command: python3 tests/ut/test_platform_empty_metadata_cpu.py -v
+Exit code: 0
+
+test_empty_metadata_without_token_count (__main__.PlatformEmptyMetadataTest.test_empty_metadata_without_token_count) ... ok
+test_nonempty_metadata_infers_token_count (__main__.PlatformEmptyMetadataTest.test_nonempty_metadata_infers_token_count) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.037s
+
+OK

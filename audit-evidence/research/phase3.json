@@ -1,0 +1,444 @@
+[
+  {
+    "id": "ASCEND-015",
+    "queries": [
+      "web: site:github.com/vllm-project/vllm-ascend FlatQuant input_size concurrent",
+      "GitHub HTML issues?q=FlatQuant (21 total, one page, all states)",
+      "GitHub connector search_prs: FlatQuant; \"FlatQuant\" \"input_size\" (state=all)",
+      "GitHub connector search_issues: FlatQuant; \"FlatQuant\" \"concurrent\" (no state filter)"
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/3440",
+        "title": "[Refactor] Clean up w4a4_flatquant_dynamic implementation",
+        "state": "merged",
+        "relation": "related_merged_origin_not_fix",
+        "evidence": "The merged cleanup PR retains class-level FlatQuant input dimensions; its diff changes packing/batched quantization and class attributes but does not isolate the get_weight/get_pertensor_param dimension on each instance.",
+        "head_sha": "dadaf0633f0b18dea78e0702e32cb5a8996cce61"
+      }
+    ],
+    "dedupe_verdict": "no_exact_duplicate_found_but_runtime_reachability_unproven",
+    "confidence": "High confidence in the forced-interleaving logic defect; medium confidence in deduplication; insufficient evidence of a supported concurrent layer-construction entry point.",
+    "caveats": [
+      "The deterministic two-thread allocation barrier still produces [128, 128] instead of [64, 128], and the two-line instance-state patch passes. This proves the shared-state race only under concurrency or re-entrant interleaving.",
+      "Ordinary serialized layer construction does not trigger the race. Inspection of current Ascend model loaders and pinned upstream Linear/model-loader creation paths did not establish that a supported path concurrently calls create_weights for separate FlatQuant layers. Weight-file I/O threads are not evidence of concurrent layer construction.",
+      "Do not describe this as an observed model-startup failure or NPU inference issue. The audit report already stated the concurrency boundary, but publication requires that boundary to remain prominent."
+    ],
+    "proposal": "Hold a standalone bug issue/PR until a supported concurrency or re-entrant construction path is established. The code change can be proposed later as narrowly scoped instance-state isolation, without claiming an observed serving failure.",
+    "publication_ready": false,
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "stillpresent",
+      "test": "tests/unit/test_repro_p3_quant_flatquant_state.py",
+      "baseline_exit_code": 1,
+      "baseline_failed_assertions": 1,
+      "baseline_errors": 0,
+      "patched_exit_code": 0,
+      "patched_test_methods_passed": 1,
+      "baseline_log": "audit/publication/research/evidence/ASCEND-015-current-main.txt",
+      "patched_log": "audit/publication/research/evidence/ASCEND-015-current-main-patched.txt",
+      "source_comparison": "All production files touched by the existing patch are byte-identical between the original audited checkout and the current-main worktree. The upstream pin is also unchanged. Existing tests were executed unmodified against both source trees; patches applied only in /tmp/vllm-ascend-publish-phase3-fixed."
+    },
+    "checked_on": "2026-11-04",
+    "search_scope": "Official vllm-project/vllm-ascend issues and PRs, including open, closed and merged. Initial public web queries were supplemented by GitHub HTML search and authenticated GitHub connector search_issues/search_prs; potentially matching PR bodies and diffs were inspected. This is a bounded search, not proof of uniqueness. Raw query/result and PR evidence are under audit/publication/research/evidence/."
+  },
+  {
+    "id": "ASCEND-016",
+    "queries": [
+      "web: site:github.com/vllm-project/vllm-ascend solve_kronecker_decompose infinite loop MXFP4",
+      "GitHub HTML issues?q=Kronecker (7 total); issues?q=\"solve_kronecker_decompose\" (2 total), all states",
+      "GitHub connector search_prs: Kronecker; \"Kronecker\" \"hang\" (state=all)",
+      "GitHub connector search_issues: Kronecker loop; \"Kronecker\" \"infinite\" (no state filter)"
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/9391",
+        "title": "[Ascend950] [Feature] Enable MXFP4 flatquant and support for row parallelism",
+        "state": "merged",
+        "relation": "related_merged_feature_not_fix",
+        "evidence": "Introduces MXFP4 FlatQuant and row-parallel decomposition. Its body reports Qwen3-32B results and its diff calls the shared difference-of-squares solver; it does not fix n mod 4 == 2 nontermination.",
+        "head_sha": "e62bc2f40cd9220934a16c07b6814e13c27d12ba"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/15981",
+        "title": "[Backport v0.26.0rc][BugFix] Fix stale MoE factory bindings",
+        "state": "merged",
+        "relation": "search_hit_unrelated_final_scope",
+        "evidence": "Although search indexes Kronecker/hang discussion, the final merged PR body and 748-character diff are limited to stale FusedMoE factory bindings in patch_fused_moe.py; it is not a solver fix.",
+        "head_sha": "7ac918a9a8981e83563d3831f6d1e3c5f1c20078"
+      }
+    ],
+    "dedupe_verdict": "no_exact_duplicate_found_but_supported_shape_scope_unproven",
+    "confidence": "High confidence that the real helper never terminates for 6 and 1026; medium confidence in deduplication and low confidence that those examples represent supported checkpoints.",
+    "caveats": [
+      "CPU execution still exceeds the deterministic source-line budget only for dimensions 6 and 1026; the existing bounded-factor patch passes all seven shape cases, including legacy 40/56 layouts.",
+      "The INT4 FlatQuant caller requires divisibility by 8 and cannot reach this case. The MXFP4 host caller checks only divisibility by 2 before calling the helper, but the example widths 6 and 1026 do not satisfy the default MXFP4 group_size=32 packing geometry. No supported ModelSlim checkpoint with these dimensions has been established.",
+      "Do not infer that passing this host-side check means every downstream NPU operator supports the resulting factors. The original patch adds a factorization path; a publication-ready patch must decide whether the supported contract requires accepting these factors or rejecting an invalid configuration early.",
+      "The legacy difference-of-squares/Fermat layout must remain unchanged for already supported dimensions: 56 maps to (4, 14), not (7, 8)."
+    ],
+    "proposal": "Hold the current acceptance-expanding PR pending the supported shape contract. If publishing only the helper/configuration robustness problem, clearly state that malformed or unsupported dimensions can hang initialization and prefer an explicitly justified fail-fast guard; do not claim a stock supported model failure.",
+    "publication_ready": false,
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "stillpresent",
+      "test": "tests/unit/test_repro_p3_quant_kronecker.py",
+      "baseline_exit_code": 1,
+      "baseline_failed_assertions": 2,
+      "baseline_errors": 0,
+      "patched_exit_code": 0,
+      "patched_test_methods_passed": 1,
+      "baseline_log": "audit/publication/research/evidence/ASCEND-016-current-main.txt",
+      "patched_log": "audit/publication/research/evidence/ASCEND-016-current-main-patched.txt",
+      "source_comparison": "All production files touched by the existing patch are byte-identical between the original audited checkout and the current-main worktree. The upstream pin is also unchanged. Existing tests were executed unmodified against both source trees; patches applied only in /tmp/vllm-ascend-publish-phase3-fixed."
+    },
+    "checked_on": "2026-11-04",
+    "search_scope": "Official vllm-project/vllm-ascend issues and PRs, including open, closed and merged. Initial public web queries were supplemented by GitHub HTML search and authenticated GitHub connector search_issues/search_prs; potentially matching PR bodies and diffs were inspected. This is a bounded search, not proof of uniqueness. Raw query/result and PR evidence are under audit/publication/research/evidence/."
+  },
+  {
+    "id": "ASCEND-017",
+    "queries": [
+      "web: site:github.com/vllm-project/vllm-ascend Mooncake shutdown receiver thread",
+      "GitHub HTML: \"Mooncake\" \"shutdown\" (all states)",
+      "GitHub connector search_prs: \"Mooncake\" \"shutdown\"; \"Mooncake\" \"receiver\" \"shutdown\"; \"Mooncake\" \"executor\" \"shutdown\" (state=all)",
+      "GitHub connector search_issues: \"Mooncake\" \"shutdown\" (no state filter)"
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/18956",
+        "title": "[BugFix][KV Transfer] Fix Mooncake V2 scheduler resource cleanup",
+        "state": "merged",
+        "relation": "related_merged_scheduler_fix_not_worker_fix",
+        "evidence": "The body and diff add shutdown forwarding only to connector_scheduler and stop scheduler control threads. They do not add connector_worker.shutdown, a pull-worker receiver sentinel/join, or executor shutdown. Current source retains this scheduler-only shutdown, and all three worker-lifecycle regression tests still fail.",
+        "head_sha": "a17f4e5cad0f94cf768585f5debed39e5248646c"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/19193",
+        "title": "[BugFix] Propagate Mooncake scheduler startup failure",
+        "state": "open",
+        "relation": "related_open_startup_fix_not_shutdown_fix",
+        "evidence": "Fixes scheduler ZMQ bind-error publication during startup. It does not release the pull worker receiver/executor during connector shutdown.",
+        "head_sha": "41ca71867e723b0411699e7173640430c7cfb3e0"
+      }
+    ],
+    "dedupe_verdict": "no_exact_duplicate_found_related_scheduler_cleanup_already_merged",
+    "confidence": "High for current defect and related-vs-duplicate distinction; medium-high for bounded deduplication.",
+    "caveats": [
+      "Scope is the current MooncakeConnector/MooncakePullConnector worker implementation only, not the separate legacy hybrid/layerwise/D2RH implementations.",
+      "CPU tests run the real receiver thread loop with transfer/NPU boundaries mocked. They prove thread/executor lifecycle and FIFO queue draining, not device/network shutdown latency.",
+      "An active transfer that itself never completes can still make a drain-and-join shutdown wait; the patch does not provide cancellation of arbitrary blocked native I/O."
+    ],
+    "proposal": "Eligible for a focused new worker-shutdown issue and PR, referencing merged #18956 as scheduler-side precedent and explaining why worker cleanup remains missing. Preserve idle, queued-work, never-started and repeated-shutdown coverage.",
+    "publication_ready": true,
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "stillpresent",
+      "test": "tests/unit/test_repro_p3_transfer_shutdown.py",
+      "baseline_exit_code": 1,
+      "baseline_failed_assertions": 3,
+      "baseline_errors": 0,
+      "patched_exit_code": 0,
+      "patched_test_methods_passed": 3,
+      "baseline_log": "audit/publication/research/evidence/ASCEND-017-current-main.txt",
+      "patched_log": "audit/publication/research/evidence/ASCEND-017-current-main-patched.txt",
+      "source_comparison": "All production files touched by the existing patch are byte-identical between the original audited checkout and the current-main worktree. The upstream pin is also unchanged. Existing tests were executed unmodified against both source trees; patches applied only in /tmp/vllm-ascend-publish-phase3-fixed."
+    },
+    "checked_on": "2026-11-04",
+    "search_scope": "Official vllm-project/vllm-ascend issues and PRs, including open, closed and merged. Initial public web queries were supplemented by GitHub HTML search and authenticated GitHub connector search_issues/search_prs; potentially matching PR bodies and diffs were inspected. This is a bounded search, not proof of uniqueness. Raw query/result and PR evidence are under audit/publication/research/evidence/."
+  },
+  {
+    "id": "ASCEND-018",
+    "queries": [
+      "web: site:github.com/vllm-project/vllm-ascend _cancelled_metaserver_requests retry timer",
+      "GitHub HTML: \"metaserver\" \"retry\" (13 total); \"cancelled_metaserver_requests\" (1 result), all states",
+      "GitHub connector search_prs: \"metaserver\" \"cleanup\"; \"metaserver\" \"timer\" (state=all)",
+      "Fetched #17293 body/diff/comments and followed its supersession link to #17403; inspected #17403 body and scheduler diff"
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/17403",
+        "title": "[BugFix][KV Transfer] Consolidate PD failure handling lifecycle",
+        "state": "open",
+        "relation": "same_defect_existing_open_fix",
+        "evidence": "The open PR changes _cancelled_metaserver_requests from an unbounded set to timestamped TTL-pruned entries and adds a cancellation recheck inside the final locked retry-timer installation. These cover both original ASCEND-018 mechanisms, even though the overall PR also handles generation-aware PD failures.",
+        "head_sha": "4ce0ccebfda1e1c15c2814d0aeab8844de5902ff"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/17293",
+        "title": "[BugFix][SFA PD] Converge failed transfer lifecycle",
+        "state": "closed",
+        "relation": "same_defect_closed_superseded",
+        "evidence": "Its diff already bounds cancelled-request tombstones and rechecks cancellation before installing the retry timer. Author closing comment explicitly says this PR is superseded by #17403.",
+        "head_sha": "f479f98cd81a80dbf2a15fb8449716891081b6d5"
+      }
+    ],
+    "dedupe_verdict": "duplicate_existing_open_fix",
+    "confidence": "High; direct source-level overlap in both retention mechanisms.",
+    "caveats": [
+      "Current main remains affected because #17403 is open, not merged; three failed assertions on current main do not justify a duplicate publication.",
+      "The existing PR uses TTL-bounded tombstones instead of the audit patch's active-membership approach. This implementation difference does not make the underlying issue new.",
+      "The broader existing PR also changes generation semantics; do not transplant the smaller audit patch into it without checking request-generation interactions."
+    ],
+    "proposal": "Do not open a new issue or competing PR. Record #17403 as the existing fix. If additional communication is desired under the user authorization, add a concise CPU reproduction note to that existing PR after checking it is useful and not already covered.",
+    "publication_ready": false,
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "stillpresent",
+      "test": "tests/unit/test_repro_p3_transfer_metaserver_cleanup.py",
+      "baseline_exit_code": 1,
+      "baseline_failed_assertions": 3,
+      "baseline_errors": 0,
+      "patched_exit_code": 0,
+      "patched_test_methods_passed": 4,
+      "baseline_log": "audit/publication/research/evidence/ASCEND-018-current-main.txt",
+      "patched_log": "audit/publication/research/evidence/ASCEND-018-current-main-patched.txt",
+      "source_comparison": "All production files touched by the existing patch are byte-identical between the original audited checkout and the current-main worktree. The upstream pin is also unchanged. Existing tests were executed unmodified against both source trees; patches applied only in /tmp/vllm-ascend-publish-phase3-fixed."
+    },
+    "checked_on": "2026-11-04",
+    "search_scope": "Official vllm-project/vllm-ascend issues and PRs, including open, closed and merged. Initial public web queries were supplemented by GitHub HTML search and authenticated GitHub connector search_issues/search_prs; potentially matching PR bodies and diffs were inspected. This is a bounded search, not proof of uniqueness. Raw query/result and PR evidence are under audit/publication/research/evidence/."
+  },
+  {
+    "id": "ASCEND-019",
+    "queries": [
+      "web: site:github.com/vllm-project/vllm-ascend SimpleCPUOffload duplicate",
+      "GitHub connector search_prs: \"SimpleCPUOffloadConnector\"; \"SimpleCPUOffloadNPUWorker\"; \"wait_for_save\"; \"offload\" \"duplicate\"; \"offload\" \"double\" (state=all)",
+      "Fetched #17539 full body/diff and reviewed test_transfer_hooks_record_store_barrier_once_on_npu and removal of get_finished override"
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/17539",
+        "title": "[BugFix][KV Offload] Restore packed hybrid CPU KV offload on Ascend",
+        "state": "open",
+        "relation": "same_defect_existing_open_fix",
+        "evidence": "The body explicitly identifies get_finished duplicating load/save hook submissions. The diff removes the submitting get_finished override, inherits upstream load/completion handling, adds NPU wait_for_save and a per-step store-submission guard, and adds a regression proving polling submits no copies and load/save hooks submit once.",
+        "head_sha": "07a50165a6d7d61b1e5b6c7a6da1d44d61fedfad"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/17933",
+        "title": "[BugFix][KV Offload] Keep the NPU copy thread alive and report failed loads",
+        "state": "open",
+        "relation": "related_open_failure_handling_not_duplicate_submission",
+        "evidence": "Guards NPUDmaCopyBackend jobs and surfaces failed loads/invalid block IDs; it addresses daemon-copy-thread failures rather than duplicate lifecycle submissions.",
+        "head_sha": "5c54a4d32483217af4a7719a2311e41bd31a0bed"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/20772",
+        "title": "[Performance] coalesce contiguous simple offload descriptors",
+        "state": "open",
+        "relation": "related_open_descriptor_optimization_not_submission_fix",
+        "evidence": "Coalesces contiguous DMA descriptors within one copy job while preserving the existing streams/dependencies/events; it does not fix double job submission.",
+        "head_sha": "122c81cb90b510f5bf21ed5bd0655df2a8f3d62c"
+      }
+    ],
+    "dedupe_verdict": "duplicate_existing_open_fix",
+    "confidence": "High; exact failure mechanism and regression already appear in #17539.",
+    "caveats": [
+      "The original current-main regression still proves two DMA launch_copy calls per nonempty load/store, but the open fix already covers it.",
+      "This is not CUDA leakage: runner initialization aliases CUDA current_stream to the NPU stream, and the test preserves that shim.",
+      "The larger #17539 patch also changes packed-page geometry and retained boundaries; the duplicate transfer mechanism itself is nevertheless identical."
+    ],
+    "proposal": "Do not create a new issue or PR for ASCEND-019. Track #17539 and optionally contribute additional focused CPU evidence there only if it adds coverage.",
+    "publication_ready": false,
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "stillpresent",
+      "test": "tests/unit/test_repro_p3_pool_simple_hooks.py",
+      "baseline_exit_code": 1,
+      "baseline_failed_assertions": 2,
+      "baseline_errors": 0,
+      "patched_exit_code": 0,
+      "patched_test_methods_passed": 2,
+      "baseline_log": "audit/publication/research/evidence/ASCEND-019-current-main.txt",
+      "patched_log": "audit/publication/research/evidence/ASCEND-019-current-main-patched.txt",
+      "source_comparison": "All production files touched by the existing patch are byte-identical between the original audited checkout and the current-main worktree. The upstream pin is also unchanged. Existing tests were executed unmodified against both source trees; patches applied only in /tmp/vllm-ascend-publish-phase3-fixed."
+    },
+    "checked_on": "2026-11-04",
+    "search_scope": "Official vllm-project/vllm-ascend issues and PRs, including open, closed and merged. Initial public web queries were supplemented by GitHub HTML search and authenticated GitHub connector search_issues/search_prs; potentially matching PR bodies and diffs were inspected. This is a bounded search, not proof of uniqueness. Raw query/result and PR evidence are under audit/publication/research/evidence/."
+  },
+  {
+    "id": "ASCEND-020",
+    "queries": [
+      "web: site:github.com/vllm-project/vllm-ascend KVTransferThread ready_event",
+      "GitHub HTML: \"KVTransferThread\" (23 total, all states); \"AscendStore\" \"startup\"",
+      "GitHub connector search_prs: \"KVTransferThread\" \"startup\"; \"set_device\" \"ready_event\" (state=all)",
+      "Fetched #19101, #19193 and #19651 bodies/diffs; inspected startup versus request-loop failure boundaries"
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/19101",
+        "title": "[BugFix][KVPool] Isolate Memcache transfer failures",
+        "state": "merged",
+        "relation": "related_merged_request_loop_and_shutdown_fix_not_startup_fix",
+        "evidence": "Adds/uses fatal-error and shutdown handling for queued transfer work. The current run method still calls m_store.set_device before its guarded request loop and before ready_event.set, so startup binding exceptions bypass those mechanisms.",
+        "head_sha": "1bc05e6cbe0dd507f668c1b9aeb32539bd01189e"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/19193",
+        "title": "[BugFix] Propagate Mooncake scheduler startup failure",
+        "state": "open",
+        "relation": "related_open_different_thread_startup_bug",
+        "evidence": "Publishes failures for MooncakeSchedulerSendingThread ZMQ bind and checks them on the scheduler. ASCEND-020 is KVTransferThread backend device binding plus unbounded readiness waits in bulk/layerwise pool workers; it touches a different class and caller path.",
+        "head_sha": "41ca71867e723b0411699e7173640430c7cfb3e0"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/19651",
+        "title": "[Test] Harden KV pool lookup RPC failure paths",
+        "state": "closed",
+        "relation": "related_closed_tests_only",
+        "evidence": "The PR explicitly changes tests only. Its startup test asserts successful set_device/readiness ordering; handler-error tests concern the loop after startup. It does not test or fix set_device raising before readiness.",
+        "head_sha": "0ec63c1e54bd3dcff1f15b39d2309d851efe3086"
+      }
+    ],
+    "dedupe_verdict": "no_exact_duplicate_found_related_failure_handling_does_not_cover_startup",
+    "confidence": "High for the source boundary and deterministic reproduction; medium-high for bounded deduplication.",
+    "caveats": [
+      "The mocked Backend.set_device exception is a synthetic deterministic trigger; no claim is made that a physical device failed during this audit.",
+      "The original tests call run synchronously and inspect the startup event/fatal-error channel, avoiding an actually hung test.",
+      "Patch scope is device-binding failure before the request loop. It does not claim comprehensive handling of every thread bootstrap failure, including failure before this binding block."
+    ],
+    "proposal": "Eligible for a focused issue and PR covering startup handshake error publication plus raise_if_failed immediately after all bulk/layerwise readiness waits. Reference #19193 as a related but distinct startup-handshake precedent.",
+    "publication_ready": true,
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "stillpresent",
+      "test": "tests/unit/test_repro_p3_pool_thread_startup.py",
+      "baseline_exit_code": 1,
+      "baseline_failed_assertions": 2,
+      "baseline_errors": 0,
+      "patched_exit_code": 0,
+      "patched_test_methods_passed": 3,
+      "baseline_log": "audit/publication/research/evidence/ASCEND-020-current-main.txt",
+      "patched_log": "audit/publication/research/evidence/ASCEND-020-current-main-patched.txt",
+      "source_comparison": "All production files touched by the existing patch are byte-identical between the original audited checkout and the current-main worktree. The upstream pin is also unchanged. Existing tests were executed unmodified against both source trees; patches applied only in /tmp/vllm-ascend-publish-phase3-fixed."
+    },
+    "checked_on": "2026-11-04",
+    "search_scope": "Official vllm-project/vllm-ascend issues and PRs, including open, closed and merged. Initial public web queries were supplemented by GitHub HTML search and authenticated GitHub connector search_issues/search_prs; potentially matching PR bodies and diffs were inspected. This is a bounded search, not proof of uniqueness. Raw query/result and PR evidence are under audit/publication/research/evidence/."
+  },
+  {
+    "id": "ASCEND-021",
+    "queries": [
+      "web: site:github.com/vllm-project/vllm-ascend num_cpu_blocks Simple",
+      "GitHub HTML: \"num_cpu_blocks\" (all states)",
+      "GitHub connector search_prs: \"num_cpu_blocks\" \"simple\"; \"num_cpu_blocks\" \"offload\" (state=all)",
+      "GitHub connector search_issues: \"SimpleCPUOffload\" \"align\"; \"simple\" \"pool\" \"capacity\" (no state filter)",
+      "Fetched Ascend #17539/#19694 and upstream vllm #52921; compared explicit override and all-rank MIN behavior in the unchanged current upstream pin"
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/17539",
+        "title": "[BugFix][KV Offload] Restore packed hybrid CPU KV offload on Ascend",
+        "state": "open",
+        "relation": "related_open_capacity_geometry_fix_different_contract",
+        "evidence": "Changes physical-page/view deduplication and scheduler byte-budget calculation, but its diff does not mention _num_cpu_blocks_override, _resolve_num_cpu_blocks or all-rank reduction, and does not forward num_cpu_blocks through the connector replacement. Coordinate overlapping worker registration edits; this is not the same parameter/alignment fix.",
+        "head_sha": "07a50165a6d7d61b1e5b6c7a6da1d44d61fedfad"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/19694",
+        "title": "[Misc] main2main 1023 ",
+        "state": "merged",
+        "relation": "related_merged_partial_upstream_adaptation",
+        "evidence": "The main2main PR adds the get_simple_cpu_offload_num_cpu_blocks worker RPC and corresponding tests for upstream #52921. It does not repair the NPU worker's bypass of the capacity resolver or the connector's dropped explicit override.",
+        "head_sha": "d0c1ad367ee0b4087ef20e551e5f8bb7b73e1e0d"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm/pull/52921",
+        "title": "[Bugfix] Align CPU offload pool size across PP/spec-decode workers",
+        "state": "merged",
+        "relation": "upstream_merged_contract_source",
+        "evidence": "Upstream explicitly preserves num_cpu_blocks, synchronizes worker capacity with MIN and sends the aligned count to the scheduler. Those guarantees are present in the pinned upstream source but bypassed by Ascend register_kv_caches.",
+        "head_sha": "ab25ae723a24e978abad2dcb33c19d52a4d67919"
+      }
+    ],
+    "dedupe_verdict": "no_exact_ascend_duplicate_found_related_open_capacity_patch_requires_coordination",
+    "confidence": "High for lost override/alignment on current main; medium-high for bounded deduplication.",
+    "caveats": [
+      "Four current-main CPU regressions fail: constructor forwarding, explicit count, all-rank minimum and explicit-budget validation; all pass with the isolated patch.",
+      "The all-rank reduction is mocked; this verifies the decision and invocation contract, not a real HCCL collective or an observed native out-of-bounds copy.",
+      "PR #17539 modifies the same registration/capacity area. A new narrowly scoped PR should reference it and explain the independent upstream contract instead of presenting all offload-capacity problems as new."
+    ],
+    "proposal": "Eligible for a focused upstream-contract issue and PR preserving num_cpu_blocks and delegating to the inherited resolver. Link upstream #52921 and related Ascend #17539/#19694; preserve the distinction from packed-page byte-budget work.",
+    "publication_ready": true,
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "stillpresent",
+      "test": "tests/unit/test_repro_p3_pool_simple_sizing.py",
+      "baseline_exit_code": 1,
+      "baseline_failed_assertions": 4,
+      "baseline_errors": 0,
+      "patched_exit_code": 0,
+      "patched_test_methods_passed": 4,
+      "baseline_log": "audit/publication/research/evidence/ASCEND-021-current-main.txt",
+      "patched_log": "audit/publication/research/evidence/ASCEND-021-current-main-patched.txt",
+      "source_comparison": "All production files touched by the existing patch are byte-identical between the original audited checkout and the current-main worktree. The upstream pin is also unchanged. Existing tests were executed unmodified against both source trees; patches applied only in /tmp/vllm-ascend-publish-phase3-fixed."
+    },
+    "checked_on": "2026-11-04",
+    "search_scope": "Official vllm-project/vllm-ascend issues and PRs, including open, closed and merged. Initial public web queries were supplemented by GitHub HTML search and authenticated GitHub connector search_issues/search_prs; potentially matching PR bodies and diffs were inspected. This is a bounded search, not proof of uniqueness. Raw query/result and PR evidence are under audit/publication/research/evidence/."
+  },
+  {
+    "id": "ASCEND-022",
+    "queries": [
+      "web: site:github.com/vllm-project/vllm-ascend kv_offload_backend disk",
+      "GitHub HTML: \"kv_offload_backend\" (4 total, all states)",
+      "GitHub connector search_prs: \"kv_offload_backend\"; \"disk\" \"simple\" (state=all)",
+      "GitHub connector search_issues: \"disk\" \"offload\" \"unsupported\" (no state filter)",
+      "Fetched closed Ascend #13823, open host-side feature #8851, and merged upstream vllm #49644; inspected their bodies/diffs"
+    ],
+    "related": [
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/13823",
+        "title": "[Misc]feat: adapt to vLLM main (45273b8d)",
+        "state": "closed",
+        "relation": "related_closed_unmerged_interface_adaptation_not_fail_fast_fix",
+        "evidence": "The old main2main proposal acknowledges that the disk backend is not implemented on NPU and forwards new disk kwargs only for interface alignment. It is closed without merge and does not reject unsupported disk mode before scheduler/worker initialization; current code still loses the settings.",
+        "head_sha": "e373d9c74d53dc12d8d16e56f790ca9a258e8928"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm-ascend/pull/8851",
+        "title": "[Attention][Feature] Enable host-side KV offload via aclrtMallocHost",
+        "state": "open",
+        "relation": "related_open_different_host_dram_backend",
+        "evidence": "Adds an opt-in aclrtMallocHost/host-registration DRAM backend under different options. It neither implements SimpleCPUOffload disk I/O nor adds the audited disk-mode rejection.",
+        "head_sha": "d90e2af0e601963dbc127c5598cc19ada1dc10fd"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm/pull/49644",
+        "title": "[Feat][Core] Add disk offloading support to SimpleCPUOffloadConnector",
+        "state": "merged",
+        "relation": "upstream_merged_contract_source",
+        "evidence": "Adds public kv_offload_backend=disk with disk path/capacity/staging options. This establishes that the same inbound configuration is valid upstream; it does not establish Ascend disk support.",
+        "head_sha": "1a19adc4f7e5b8cd044c8efd568dce1faa905c12"
+      }
+    ],
+    "dedupe_verdict": "no_exact_rejection_fix_found_related_closed_adaptation_exists",
+    "confidence": "High for current lost configuration and fail-fast patch; medium-high for bounded deduplication.",
+    "caveats": [
+      "The defect is silent acceptance/replacement of an upstream-valid disk configuration, not a claim that Ascend documentation promised disk support.",
+      "The minimal patch rejects disk mode in both roles before calling the upstream constructor; it deliberately does not implement disk I/O or forward options into an unsupported DMA backend.",
+      "The current pin is unchanged. The standalone test executes the pinned upstream constructor contract and actual current Ascend constructors, proving CPU/default modes remain accepted while valid disk mode needs explicit rejection."
+    ],
+    "proposal": "Eligible for a narrowly scoped issue and fail-fast PR rejecting unsupported disk offload, citing the closed #13823 adaptation as related history. Preserve str normalization and CPU-mode controls. Do not propose disk implementation or claim unsupported device capability.",
+    "publication_ready": true,
+    "current_main": {
+      "commit": "0f85ed44bbbbdc0f0447f83ce62a82a8ad55afb3",
+      "upstream_pin": "24420b7a341af37a9bc3186e6fc6062512e0aa58",
+      "status": "stillpresent",
+      "test": "tests/unit/test_repro_p3_pool_disk_config.py",
+      "baseline_exit_code": 1,
+      "baseline_failed_assertions": 2,
+      "baseline_errors": 0,
+      "patched_exit_code": 0,
+      "patched_test_methods_passed": 3,
+      "baseline_log": "audit/publication/research/evidence/ASCEND-022-current-main.txt",
+      "patched_log": "audit/publication/research/evidence/ASCEND-022-current-main-patched.txt",
+      "source_comparison": "All production files touched by the existing patch are byte-identical between the original audited checkout and the current-main worktree. The upstream pin is also unchanged. Existing tests were executed unmodified against both source trees; patches applied only in /tmp/vllm-ascend-publish-phase3-fixed."
+    },
+    "checked_on": "2026-11-04",
+    "search_scope": "Official vllm-project/vllm-ascend issues and PRs, including open, closed and merged. Initial public web queries were supplemented by GitHub HTML search and authenticated GitHub connector search_issues/search_prs; potentially matching PR bodies and diffs were inspected. This is a bounded search, not proof of uniqueness. Raw query/result and PR evidence are under audit/publication/research/evidence/."
+  }
+]

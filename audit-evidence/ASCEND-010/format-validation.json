@@ -1,0 +1,32 @@
+{
+  "worktree": "/tmp/vllm-ascend-pr-010",
+  "command": [
+    "bash",
+    "format.sh",
+    "ci"
+  ],
+  "included_files": [
+    "tests/ut/attention/test_projection_pool_lifetime_cpu.py",
+    "vllm_ascend/attention/context_parallel/dsa_cp.py",
+    "vllm_ascend/attention/context_parallel/sfa_cp.py",
+    "vllm_ascend/weight_switch/linear.py",
+    "vllm_ascend/weight_switch/o_proj.py"
+  ],
+  "temporary_index": "/tmp/vllm-audit-tools/format-index-010",
+  "process_env_overrides": [
+    "PATH",
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "PIP_CERT=/etc/ssl/cert.pem",
+    "SSL_CERT_FILE=/etc/ssl/cert.pem",
+    "PIP_DEFAULT_TIMEOUT=60",
+    "PIP_FIND_LINKS=/tmp/vllm-audit-tools/downloads",
+    "PRE_COMMIT_NO_CONCURRENCY=1",
+    "RAYON_NUM_THREADS=2",
+    "GIT_INDEX_FILE"
+  ],
+  "status_before": " M vllm_ascend/attention/context_parallel/dsa_cp.py\n M vllm_ascend/attention/context_parallel/sfa_cp.py\n M vllm_ascend/weight_switch/linear.py\n M vllm_ascend/weight_switch/o_proj.py\n?? tests/ut/attention/test_projection_pool_lifetime_cpu.py\n",
+  "exit_code": 0,
+  "status_after": " M vllm_ascend/attention/context_parallel/dsa_cp.py\n M vllm_ascend/attention/context_parallel/sfa_cp.py\n M vllm_ascend/weight_switch/linear.py\n M vllm_ascend/weight_switch/o_proj.py\n?? tests/ut/attention/test_projection_pool_lifetime_cpu.py\n",
+  "unexpected_modified_files": []
+}

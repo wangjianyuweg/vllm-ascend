@@ -1,0 +1,34 @@
+diff --git a/vllm_ascend/quantization/configs/compressed_tensors_config.py b/vllm_ascend/quantization/configs/compressed_tensors_config.py
+index 58deeaf..3ac7543 100644
+--- a/vllm_ascend/quantization/configs/compressed_tensors_config.py
++++ b/vllm_ascend/quantization/configs/compressed_tensors_config.py
+@@ -321,6 +321,8 @@ class AscendCompressedTensorsConfig(QuantizationConfig):
+                 f"quant_type={quant_type}, layer_type={layer_type}."
+             )
+ 
++        if quant_type == "W4A16":
++            return scheme_cls(group_size=weight_quant.group_size)
+         return scheme_cls()
+ 
+     def _detect_quant_type(
+diff --git a/vllm_ascend/quantization/methods/wna16/w4a16.py b/vllm_ascend/quantization/methods/wna16/w4a16.py
+index 096f1a1..2114b34 100644
+--- a/vllm_ascend/quantization/methods/wna16/w4a16.py
++++ b/vllm_ascend/quantization/methods/wna16/w4a16.py
+@@ -184,12 +184,14 @@ class AscendW4A16FusedMoEMethod(AscendMoEScheme):
+     # method fallback and the A16 path keeps activations unquantized.
+     fused_activations = frozenset()
+ 
+-    def __init__(self) -> None:
++    def __init__(self, group_size: int | None = None) -> None:
+         self.num_bits = 4  # dtype = torch.int4
+         self.pack_factor = 8  # pack 8 of torch.int4 tensors to torch.int32
+ 
+         vllm_config = get_current_vllm_config()
+-        self.group_size = vllm_config.quant_config.quant_description.get("group_size", 32)
++        self.group_size = (
++            group_size if group_size is not None else vllm_config.quant_config.quant_description.get("group_size", 32)
++        )
+         self.dynamic_eplb = False if vllm_config.use_v2_model_runner else get_ascend_config().eplb_config.dynamic_eplb
+ 
+     def get_weight(

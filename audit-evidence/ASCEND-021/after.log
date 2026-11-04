@@ -1,0 +1,12 @@
+test_automatic_capacity_uses_all_rank_minimum (__main__.SimpleOffloadSizingTest.test_automatic_capacity_uses_all_rank_minimum) ... ok
+test_connector_forwards_parsed_block_count_to_replacement (__main__.SimpleOffloadSizingTest.test_connector_forwards_parsed_block_count_to_replacement) ... ok
+test_explicit_block_count_is_preserved_at_registration (__main__.SimpleOffloadSizingTest.test_explicit_block_count_is_preserved_at_registration) ... ok
+test_explicit_capacity_cannot_exceed_byte_budget (__main__.SimpleOffloadSizingTest.test_explicit_capacity_cannot_exceed_byte_budget) ... ok
+test_release_connector_accepts_handler_without_override (__main__.SimpleOffloadSizingTest.test_release_connector_accepts_handler_without_override) ... ok
+test_release_constructor_keeps_legacy_signature (__main__.SimpleOffloadSizingTest.test_release_constructor_keeps_legacy_signature) ... ok
+test_release_registration_keeps_legacy_local_capacity (__main__.SimpleOffloadSizingTest.test_release_registration_keeps_legacy_local_capacity) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.118s
+
+OK
