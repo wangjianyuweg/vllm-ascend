@@ -1,0 +1,65 @@
+{
+  "head_before": "0a9b4ce180119513f134b9e626d619c2b8aec4b0",
+  "files": [
+    "tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py"
+  ],
+  "checks": [
+    {
+      "command": [
+        "/Users/j14nyuw4n9/workspace/vllm-ascend-audit-runtime/venv/bin/mypy",
+        "--follow-imports",
+        "skip",
+        "--check-untyped-defs",
+        "--python-version",
+        "3.10",
+        "tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py"
+      ],
+      "exit_code": 0,
+      "log": "ci-fix-mypy-3.10.log"
+    },
+    {
+      "command": [
+        "/Users/j14nyuw4n9/workspace/vllm-ascend-audit-runtime/venv/bin/mypy",
+        "--follow-imports",
+        "skip",
+        "--check-untyped-defs",
+        "--python-version",
+        "3.11",
+        "tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py"
+      ],
+      "exit_code": 0,
+      "log": "ci-fix-mypy-3.11.log"
+    },
+    {
+      "command": [
+        "/Users/j14nyuw4n9/workspace/vllm-ascend-audit-runtime/venv/bin/mypy",
+        "--follow-imports",
+        "skip",
+        "--check-untyped-defs",
+        "--python-version",
+        "3.12",
+        "tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py"
+      ],
+      "exit_code": 0,
+      "log": "ci-fix-mypy-3.12.log"
+    },
+    {
+      "command": [
+        "bash",
+        "format.sh",
+        "ci"
+      ],
+      "exit_code": 0,
+      "log": "ci-fix-format.log"
+    }
+  ],
+  "parallel_tasks": 1,
+  "pre_commit_no_concurrency": true,
+  "rayon_threads": 1,
+  "file_sha256": {
+    "tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py": "75005acd14e8f5c3880e984dd2e667b17580304ae4cabe42a09f65ff49e73e34"
+  },
+  "status_after": "M tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py",
+  "commit": "09ea84e6f84d3e1d481f1bf6195af615da115496",
+  "pushed": true
+}

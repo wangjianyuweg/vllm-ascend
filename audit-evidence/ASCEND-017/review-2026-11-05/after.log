@@ -1,0 +1,10 @@
+test_failed_shutdown_preserves_resources_for_retry (__main__.MooncakeShutdownRepro.test_failed_shutdown_preserves_resources_for_retry) ... ok
+test_idle_shutdown_stops_receiver_and_is_repeatable (__main__.MooncakeShutdownRepro.test_idle_shutdown_stops_receiver_and_is_repeatable) ... ok
+test_shutdown_before_thread_start_releases_executor (__main__.MooncakeShutdownRepro.test_shutdown_before_thread_start_releases_executor) ... ok
+test_shutdown_drains_already_queued_requests (__main__.MooncakeShutdownRepro.test_shutdown_drains_already_queued_requests) ... ok
+test_shutdown_retains_ownership_until_cleanup_finishes (__main__.MooncakeShutdownRepro.test_shutdown_retains_ownership_until_cleanup_finishes) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.212s
+
+OK

@@ -1,0 +1,52 @@
+test_failed_shutdown_preserves_resources_for_retry (__main__.MooncakeShutdownRepro.test_failed_shutdown_preserves_resources_for_retry) ... FAIL
+test_idle_shutdown_stops_receiver_and_is_repeatable (__main__.MooncakeShutdownRepro.test_idle_shutdown_stops_receiver_and_is_repeatable) ... FAIL
+test_shutdown_before_thread_start_releases_executor (__main__.MooncakeShutdownRepro.test_shutdown_before_thread_start_releases_executor) ... FAIL
+test_shutdown_drains_already_queued_requests (__main__.MooncakeShutdownRepro.test_shutdown_drains_already_queued_requests) ... FAIL
+test_shutdown_retains_ownership_until_cleanup_finishes (__main__.MooncakeShutdownRepro.test_shutdown_retains_ownership_until_cleanup_finishes) ... FAIL
+
+======================================================================
+FAIL: test_failed_shutdown_preserves_resources_for_retry (__main__.MooncakeShutdownRepro.test_failed_shutdown_preserves_resources_for_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/j14nyuw4n9/workspace/vllm-ascend-audit-runtime/017-baseline-u9kls1if/tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py", line 144, in test_failed_shutdown_preserves_resources_for_retry
+    with self.assertRaisesRegex(RuntimeError, "executor cleanup failed"):
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_idle_shutdown_stops_receiver_and_is_repeatable (__main__.MooncakeShutdownRepro.test_idle_shutdown_stops_receiver_and_is_repeatable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/j14nyuw4n9/workspace/vllm-ascend-audit-runtime/017-baseline-u9kls1if/tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py", line 86, in test_idle_shutdown_stops_receiver_and_is_repeatable
+    self.assertFalse(
+AssertionError: True is not false : public connector shutdown leaves the receiver blocked in queue.get()
+
+======================================================================
+FAIL: test_shutdown_before_thread_start_releases_executor (__main__.MooncakeShutdownRepro.test_shutdown_before_thread_start_releases_executor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/j14nyuw4n9/workspace/vllm-ascend-audit-runtime/017-baseline-u9kls1if/tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py", line 106, in test_shutdown_before_thread_start_releases_executor
+    self.receiver.executor.shutdown.assert_called_once_with(wait=True)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 950, in assert_called_once_with
+    raise AssertionError(msg)
+AssertionError: Expected 'shutdown' to be called once. Called 0 times.
+
+======================================================================
+FAIL: test_shutdown_drains_already_queued_requests (__main__.MooncakeShutdownRepro.test_shutdown_drains_already_queued_requests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/j14nyuw4n9/workspace/vllm-ascend-audit-runtime/017-baseline-u9kls1if/tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py", line 99, in test_shutdown_drains_already_queued_requests
+    self.assertFalse(self.receiver.is_alive())
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_shutdown_retains_ownership_until_cleanup_finishes (__main__.MooncakeShutdownRepro.test_shutdown_retains_ownership_until_cleanup_finishes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/j14nyuw4n9/workspace/vllm-ascend-audit-runtime/017-baseline-u9kls1if/tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py", line 130, in test_shutdown_retains_ownership_until_cleanup_finishes
+    self.assertTrue(cleanup_started.wait(timeout=2))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 5 tests in 2.210s
+
+FAILED (failures=5)
