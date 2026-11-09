@@ -1,0 +1,33 @@
+{
+  "before_revision": "101da698329994eafd62022393dbe9daaacb1548",
+  "after_revision": "68e77300e0fb4b96369edf102a87939df796f57b",
+  "same_test_source": "68e77300e0fb4b96369edf102a87939df796f57b:tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py",
+  "runtime": "Python 3.11.9, macOS CPU",
+  "before": {
+    "tests": 7,
+    "failures": 3,
+    "exit_code": 1
+  },
+  "after": {
+    "tests": 7,
+    "failures": 0,
+    "exit_code": 0
+  },
+  "tested_source_sha256": {
+    "release_notes/fragments/20985.yaml": "f32c0a0b7d27eccf98cda6854f96653e40a036a0c6be72484f518092db6d7d89",
+    "tests/ut/kv_offload/mooncake_v2/test_pull_worker_shutdown_cpu.py": "4ec3627315b6573c3fba2e1fb207c08ba4ff0afba936374a002c50358688069f",
+    "vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake/pull_worker.py": "5c7b17dde10ab40e2fd5186250b46cb22de74a29a172b8100891c24da1113e18"
+  },
+  "redaction": "Local checkout prefix in traceback paths replaced with <checkout>; trailing blank lines normalized; original logs retained locally.",
+  "files_sha256": {
+    "README.md": "0e41689bf6e09ec72438c7765906fef389beeb502aa4db055b921e2934b3e431",
+    "after.log": "cb4a873367428d4c3f87a17155d89461d254868707ea37bb31c09b68e8af973d",
+    "before.log": "452ba07ddd861a44e423ed2488d03ecaba117b3fcdcf84f4f7d88a296a4c8be5",
+    "comparison.html": "ec3e72044219c0289abe36dffa98c217fa8752d89b6c3dfb1e2296c388c1c77a",
+    "comparison.png": "8b2d3590c1865fb9ae6e0a4bb5c4814b539bab0ec1fb5c4323915aef0297cdea",
+    "format.log": "51d9e1474253c2e941b87a679f49dd9164b175877ba562002db4670083da36be",
+    "mypy-3.10.log": "5d4b6d285b77932e3d08212c3b4974d0a803f98ec60408ac6ccf6a063fa6c19e",
+    "mypy-3.11.log": "5d4b6d285b77932e3d08212c3b4974d0a803f98ec60408ac6ccf6a063fa6c19e",
+    "mypy-3.12.log": "5d4b6d285b77932e3d08212c3b4974d0a803f98ec60408ac6ccf6a063fa6c19e"
+  }
+}
